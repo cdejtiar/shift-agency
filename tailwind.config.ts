@@ -23,8 +23,19 @@ const config: Config = {
         display: ["var(--font-magnetik)", "sans-serif"],
         body: ["var(--font-space-grotesk)", "sans-serif"],
       },
+      fontSize: {
+        h1: "100px",
+        h2: "50px",
+        h3: "35px",
+        h4: "24px",
+        h5: "20px",
+        body: "18px",
+      },
       maxWidth: {
         prose: "70ch",
+      },
+      animation: {
+        "spin-slow": "spin 12s linear infinite",
       },
     },
   },

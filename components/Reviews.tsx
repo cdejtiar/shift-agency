@@ -10,7 +10,7 @@ export function Reviews() {
     <section className="px-6 py-32">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <h2 className="text-4xl">{content.reviews.title}</h2>
+          <h2>{content.reviews.title}</h2>
           <p className="font-display text-6xl">
             9.5<span className="text-2xl text-ink">/10</span>
           </p>

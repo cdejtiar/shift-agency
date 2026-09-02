@@ -10,7 +10,7 @@ export function Trabajos() {
     <section id="trabajos" className="px-6 py-32">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <h2 className="text-4xl">{content.work.title}</h2>
+          <h2>{content.work.title}</h2>
           <p className="max-w-sm text-sm text-ink">
             {content.work.description}
           </p>
@@ -23,8 +23,8 @@ export function Trabajos() {
                 className="aspect-[3/4] rounded-lg bg-surface-raised"
                 aria-hidden
               />
-              <h3 className="mt-4 text-lg">{trabajo.title}</h3>
-              <p className="text-sm text-ink">{trabajo.client}</p>
+              <h3 className="mt-4">{trabajo.title}</h3>
+              <p className="text-ink">{trabajo.client}</p>
             </article>
           ))}
         </div>

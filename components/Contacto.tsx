@@ -8,7 +8,7 @@ export function Contacto() {
     <section id="contacto" className="px-6 py-32">
       <div className="mx-auto grid max-w-6xl gap-16 md:grid-cols-2">
         <div>
-          <h2 className="text-4xl">{content.contact.title}</h2>
+          <h2>{content.contact.title}</h2>
           <p className="mt-4 max-w-sm text-ink">
             {content.contact.description}
           </p>

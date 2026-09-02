@@ -11,10 +11,28 @@
     @apply bg-surface text-cream font-body antialiased;
   }
 
-  h1,
-  h2,
+  h1 {
+    @apply font-display text-h1;
+  }
+
+  h2 {
+    @apply font-display text-h2;
+  }
+
   h3 {
-    @apply font-display;
+    @apply font-display text-h3;
+  }
+
+  h4 {
+    @apply font-display text-h4;
+  }
+
+  h5 {
+    @apply font-display text-h5;
+  }
+
+  p {
+    @apply text-body;
   }
 
   /* Foco visible para navegación por teclado — no lo saques */
@@ -35,6 +53,39 @@
 
   .container {
     @apply mx-auto max-w-7xl px-6 md:px-8;
+  }
+
+  .hero-badge {
+    position: absolute;
+    top: clamp(8rem, 24vh, 15rem);
+    left: 75%;
+    width: clamp(7rem, 13vw, 12rem);
+    height: clamp(7rem, 13vw, 12rem);
+    transform: translateX(-50%);
+  }
+
+  @media (max-width: 767px) {
+    .hero-badge {
+      top: 8rem;
+      left: 1.5rem;
+      width: 6rem;
+      height: 6rem;
+      transform: none;
+    }
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 18s linear infinite;
+  }
+
+  @keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   /* Navbar */

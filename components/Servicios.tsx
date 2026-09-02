@@ -7,7 +7,7 @@ export function Servicios() {
   return (
     <section id="servicios" className="px-6 py-32">
       <div className="mx-auto max-w-7xl">
-        <h2 className="mb-16 text-4xl">{content.services.title}</h2>
+        <h2 className="mb-16">{content.services.title}</h2>
 
         <ul className="grid gap-x-12 gap-y-4 md:grid-cols-2">
           {content.services.items.map((servicio) => (

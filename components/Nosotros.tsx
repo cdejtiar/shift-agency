@@ -51,7 +51,7 @@ export function Nosotros() {
   return (
     <section id="nosotros" className="px-6 py-32">
       <div className="mx-auto max-w-7xl">
-        <h2 className="mb-6 text-4xl">{content.about.title}</h2>
+        <h2 className="mb-6">{content.about.title}</h2>
         <p className="max-w-prose text-ink">
           {content.about.description}
         </p>
@@ -60,7 +60,7 @@ export function Nosotros() {
           {stats.map((stat, index) => (
             <div key={content.about.stats[index]}>
               <Counter to={stat.value} suffix={stat.suffix} />
-              <p className="mt-2 text-sm text-ink">{content.about.stats[index]}</p>
+              <p className="mt-2 text-ink">{content.about.stats[index]}</p>
             </div>
           ))}
         </div>
