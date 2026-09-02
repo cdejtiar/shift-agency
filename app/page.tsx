@@ -6,10 +6,11 @@ import { Trabajos } from "@/components/Trabajos";
 import { Reviews } from "@/components/Reviews";
 import { Contacto } from "@/components/Contacto";
 import { Footer } from "@/components/Footer";
+import { LanguageProvider } from "../lib/i18n";
 
 export default function Home() {
   return (
-    <>
+    <LanguageProvider>
       <Header />
       <main>
         <Hero />
@@ -20,6 +21,6 @@ export default function Home() {
         <Contacto />
       </main>
       <Footer />
-    </>
+    </LanguageProvider>
   );
 }

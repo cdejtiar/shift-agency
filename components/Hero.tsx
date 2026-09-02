@@ -1,20 +1,24 @@
+"use client";
+
+import { useLanguage } from "@/lib/i18n";
+
 export function Hero() {
+  const { content } = useLanguage();
   return (
-    <section className="relative flex min-h-screen flex-col justify-center px-6 pt-24">
+    <section id="hero" className="relative flex min-h-screen flex-col justify-center px-6 pt-24">
       <div className="mx-auto w-full max-w-7xl">
-        <p className="mb-4 text-sm text-ink">Agencia de Marketing</p>
+        <p className="mb-4 text-sm text-ink">{content.hero.eyebrow}</p>
 
         <h1 className="max-w-3xl text-5xl leading-[1.05] md:text-7xl">
-          Impulsamos
+          {content.hero.title[0]}
           <br />
-          tu marca hacia
+          {content.hero.title[1]}
           <br />
-          <span className="text-violet">un cambio real</span>
+          <span className="text-violet">{content.hero.title[2]}</span>
         </h1>
 
         <p className="mt-6 max-w-md text-ink">
-          Redefinimos la comunicación con estrategia, dirección tecnológica y
-          creatividad aplicada.
+          {content.hero.description}
         </p>
 
         {/* Acá va el collage/grid de imágenes de proyecto que aparece

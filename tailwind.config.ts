@@ -15,7 +15,7 @@ const config: Config = {
         cream: "#F2EFEB",
         ink: "#626262", // gris de texto
         surface: {
-          DEFAULT: "#0A0A0A", // placeholder — confirmar hex exacto del fondo oscuro
+          DEFAULT: "#000000", // placeholder — confirmar hex exacto del fondo oscuro
           raised: "#141414",
         },
       },

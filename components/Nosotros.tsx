@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useInView, useMotionValue, useSpring } from "framer-motion";
+import { useLanguage } from "@/lib/i18n";
 
 function Counter({
   to,
@@ -39,28 +40,27 @@ function Counter({
 }
 
 const stats = [
-  { value: 5, suffix: "+", label: "Años en el mercado" },
-  { value: 50, suffix: "+", label: "Trabajos realizados" },
-  { value: 360, suffix: "°", label: "Servicio integral" },
-  { value: 100, suffix: "%", label: "Trabajo a medida" },
+  { value: 5, suffix: "+" },
+  { value: 50, suffix: "+" },
+  { value: 360, suffix: "°" },
+  { value: 100, suffix: "%" },
 ];
 
 export function Nosotros() {
+  const { content } = useLanguage();
   return (
     <section id="nosotros" className="px-6 py-32">
       <div className="mx-auto max-w-7xl">
-        <h2 className="mb-6 text-4xl">Nosotros</h2>
+        <h2 className="mb-6 text-4xl">{content.about.title}</h2>
         <p className="max-w-prose text-ink">
-          Lo que nos define es la manera de encarar cada proyecto: entender a
-          la marca antes de proponer, y construir soluciones a medida en vez
-          de fórmulas repetidas.
+          {content.about.description}
         </p>
 
         <div className="mt-20 grid grid-cols-2 gap-12 md:grid-cols-4">
-          {stats.map((stat) => (
-            <div key={stat.label}>
+          {stats.map((stat, index) => (
+            <div key={content.about.stats[index]}>
               <Counter to={stat.value} suffix={stat.suffix} />
-              <p className="mt-2 text-sm text-ink">{stat.label}</p>
+              <p className="mt-2 text-sm text-ink">{content.about.stats[index]}</p>
             </div>
           ))}
         </div>

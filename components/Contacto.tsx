@@ -1,12 +1,16 @@
+"use client";
+
+import { useLanguage } from "@/lib/i18n";
+
 export function Contacto() {
+  const { content } = useLanguage();
   return (
     <section id="contacto" className="px-6 py-32">
       <div className="mx-auto grid max-w-6xl gap-16 md:grid-cols-2">
         <div>
-          <h2 className="text-4xl">Contactanos</h2>
+          <h2 className="text-4xl">{content.contact.title}</h2>
           <p className="mt-4 max-w-sm text-ink">
-            Hablemos de tu proyecto. Contanos qué necesitás y te respondemos
-            en menos de 24hs.
+            {content.contact.description}
           </p>
         </div>
 
@@ -14,7 +18,7 @@ export function Contacto() {
         <form className="space-y-4" action="#" method="post">
           <div>
             <label htmlFor="nombre" className="mb-1 block text-sm text-ink">
-              Nombre
+              {content.contact.name}
             </label>
             <input
               id="nombre"
@@ -27,7 +31,7 @@ export function Contacto() {
 
           <div>
             <label htmlFor="email" className="mb-1 block text-sm text-ink">
-              Email
+              {content.contact.email}
             </label>
             <input
               id="email"
@@ -40,7 +44,7 @@ export function Contacto() {
 
           <div>
             <label htmlFor="mensaje" className="mb-1 block text-sm text-ink">
-              Mensaje
+              {content.contact.message}
             </label>
             <textarea
               id="mensaje"
@@ -55,7 +59,7 @@ export function Contacto() {
             type="submit"
             className="w-full rounded-md bg-violet px-6 py-3 font-medium text-cream transition-colors hover:bg-violet-light md:w-auto"
           >
-            Enviar consulta
+            {content.contact.submit}
           </button>
         </form>
       </div>
