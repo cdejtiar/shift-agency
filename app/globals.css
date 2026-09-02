@@ -2,6 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Magnetik';
+  src: url('/fonts/Magnetik-Regular.otf') format('otf');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face{
+  font-family: 'Magnetik Bold';
+  src: url('/fonts/Magnetik-Bold.otf') format('otf');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Space Grotesk Bold';
+  src: url('/fonts/SpaceGrotesk-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Space Grotesk Medium';
+  src: url('/fonts/SpaceGrotesk-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Space Grotesk Light';
+  src: url('/fonts/SpaceGrotesk-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Space Grotesk Semibold';
+  src: url('/fonts/SpaceGrotesk-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -47,8 +96,28 @@
     font-family: "Magnetik", sans-serif;
   }
 
+  .magnetik-bold {
+    font-family: "Magnetik Bold", sans-serif;
+  }
+
   .spacegrotesk {
     font-family: "Space Grotesk", sans-serif;
+  }
+
+  .spacegrotesk-bold {
+    font-family: "Space Grotesk Bold", sans-serif;
+  }
+
+  .spacegrotesk-medium {
+    font-family: "Space Grotesk Medium", sans-serif;
+  }
+
+  .spacegrotesk-light {
+    font-family: "Space Grotesk Light", sans-serif;
+  }
+
+  .spacegrotesk-semibold {
+    font-family: "Space Grotesk Semibold", sans-serif;
   }
 
   .container {
