@@ -7,7 +7,7 @@ export type Language = "es" | "en";
 type Translation = {
   header: { links: string[]; toggleLabel: string; homeLabel: string };
   hero: { eyebrow: string; title: string[]; description: string };
-  services: { title: string; items: string[] };
+  services: { title: string; description: string; items: string[] };
   about: { title: string; description: string; stats: string[] };
   work: { title: string; description: string; items: { title: string; client: string }[] };
   reviews: { title: string; client: string; service: string; score: string; items: { client: string; service: string; score: string }[] };
@@ -18,7 +18,7 @@ export const translations: Record<Language, Translation> = {
   es: {
     header: { links: ["SERVICIOS", "NOSOTROS", "TRABAJOS", "CONTACTO"], toggleLabel: "Cambiar idioma a inglés", homeLabel: "Shift Agency - inicio" },
     hero: { eyebrow: "Agencia de Marketing", title: ["Impulsamos", "tu marca hacia", "un cambio real"], description: "Redefinimos la comunicación con estrategia, dirección tecnológica y creatividad aplicada." },
-    services: { title: "Servicios", items: ["Diseño Web", "Redes Sociales", "Branding", "Diseño Gráfico", "Campañas Performance", "Contenido Multimedia", "Email Marketing"] },
+    services: { title: "Servicios", description: "Creamos servicios pensados para generar ese cambio que conecta, emociona y deja huella en tu audiencia.", items: ["Diseño Web", "Redes Sociales", "Branding", "Diseño Gráfico", "Campañas Performance", "Contenido Multimedia", "Email MKTG"] },
     about: { title: "Nosotros", description: "Lo que nos define es la manera de encarar cada proyecto: entender a la marca antes de proponer, y construir soluciones a medida en vez de fórmulas repetidas.", stats: ["Años en el mercado", "Trabajos realizados", "Servicio integral", "Trabajo a medida"] },
     work: { title: "Trabajos", description: "Una selección de proyectos donde combinamos estrategia, diseño y ejecución para marcas que buscaban un cambio real.", items: [{ title: "Diseño Web", client: "Rebranding Studio" }, { title: "Rebranding", client: "Anteo Marca" }, { title: "Dirección de contenido", client: "Loyer Estudio" }] },
     reviews: { title: "Reviews", client: "Cliente", service: "Servicio", score: "Puntaje", items: [{ client: "Cliente A", service: "Diseño Web", score: "10/10" }, { client: "Cliente B", service: "Branding", score: "9/10" }, { client: "Cliente C", service: "Redes Sociales", score: "10/10" }, { client: "Cliente D", service: "Rebranding", score: "9/10" }] },
@@ -27,7 +27,7 @@ export const translations: Record<Language, Translation> = {
   en: {
     header: { links: ["SERVICES", "ABOUT US", "WORK", "CONTACT"], toggleLabel: "Switch language to Spanish", homeLabel: "Shift Agency - home" },
     hero: { eyebrow: "Marketing Agency", title: ["We drive", "your brand toward", "real change"], description: "We redefine communication through strategy, technology leadership, and applied creativity." },
-    services: { title: "Services", items: ["Web Design", "Social Media", "Branding", "Graphic Design", "Performance Campaigns", "Multimedia Content", "Email Marketing"] },
+    services: { title: "Services", description: "We create services designed to generate that change that connects, moves, and leaves a mark on your audience.", items: ["Web Design", "Social Media", "Branding", "Graphic Design", "Performance Campaigns", "Multimedia Content", "Email MKTG"] },
     about: { title: "About us", description: "What defines us is how we approach every project: understanding the brand before proposing, and building tailored solutions instead of repeated formulas.", stats: ["Years in the market", "Completed projects", "Full-service support", "Tailored work"] },
     work: { title: "Work", description: "A selection of projects where we combined strategy, design, and execution for brands looking for real change.", items: [{ title: "Web Design", client: "Rebranding Studio" }, { title: "Rebranding", client: "Anteo Marca" }, { title: "Content Direction", client: "Loyer Estudio" }] },
     reviews: { title: "Reviews", client: "Client", service: "Service", score: "Score", items: [{ client: "Client A", service: "Web Design", score: "10/10" }, { client: "Client B", service: "Branding", score: "9/10" }, { client: "Client C", service: "Social Media", score: "10/10" }, { client: "Client D", service: "Rebranding", score: "9/10" }] },

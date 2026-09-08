@@ -22,6 +22,7 @@ export function Hero() {
 
         <p className="mt-6 max-w-l text-ink text-h4 font-light">{content.hero.description}</p>
 
+        {/* Acá va el vídeo */}
         <div className="mt-16 grid grid-cols-2 gap-4 opacity-60 md:grid-cols-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <div
