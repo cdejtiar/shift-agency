@@ -1,14 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/lib/i18n";
 
-const sectionIds = ["servicios", "nosotros", "trabajos", "contacto"];
-
 export function Header() {
   const { language, content, toggleLanguage } = useLanguage();
-  const [activeId, setActiveId] = useState<string>("");
 
   const links = [
     { label: content.header.links[0], href: "#servicios" },
@@ -16,34 +12,6 @@ export function Header() {
     { label: content.header.links[2], href: "#trabajos" },
     { label: content.header.links[3], href: "#contacto" },
   ];
-
-  useEffect(() => {
-    const sections = sectionIds
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-
-        if (visible.length > 0) {
-          setActiveId(`#${visible[0].target.id}`);
-        }
-      },
-      {
-        // Activa cuando la sección pasa el 20% superior de la pantalla
-        // y todavía no llegó a la mitad inferior.
-        rootMargin: "-20% 0px -60% 0px",
-        threshold: 0,
-      }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <header className="fixed top-0 z-50 w-full">
@@ -60,25 +28,16 @@ export function Header() {
         </a>
 
         <ul className="hidden gap-8 rounded-[92px] bg-[#F2EFEB1A] backdrop-blur-xl px-8 py-4 md:flex">
-          {links.map((link) => {
-            const isActive = activeId === link.href;
-
-            return (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  aria-current={isActive ? "true" : undefined}
-                  className={
-                    isActive
-                      ? "text-cream"
-                      : "text-cream/60 transition-colors hover:text-cream"
-                  }
-                >
-                  {link.label}
-                </a>
-              </li>
-            );
-          })}
+          {links.map((link) => (
+            <li key={link.href}>
+              <a
+                href={link.href}
+                className="text-cream/60 transition-colors hover:text-cream"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
         </ul>
 
         <button
