@@ -1,0 +1,537 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+type GalleryItem = {
+  id: string;
+  type: "image" | "shift";
+  gridClass?: string;
+  background?: string;
+};
+
+const galleryItems: GalleryItem[] = [
+  {
+    id: "p1",
+    type: "image",
+    background: "linear-gradient(135deg, #2a2a2a 0%, #4d4d4d 100%)",
+  },
+  {
+    id: "p2",
+    type: "image",
+    background: "linear-gradient(135deg, #1e1e1e 0%, #3c3c3c 100%)",
+  },
+  {
+    id: "p3",
+    type: "image",
+    background: "linear-gradient(135deg, #242424 0%, #585858 100%)",
+  },
+  {
+    id: "p4",
+    type: "image",
+    background: "linear-gradient(135deg, #1d1d1d 0%, #424242 100%)",
+  },
+  {
+    id: "p5",
+    type: "image",
+    background: "linear-gradient(135deg, #303030 0%, #5b5b5b 100%)",
+  },
+  {
+    id: "p6",
+    type: "image",
+    gridClass: "middle-left",
+    background: "linear-gradient(135deg, #202020 0%, #3b3b3b 100%)",
+  },
+  { id: "shift", type: "shift", gridClass: "target" },
+  {
+    id: "p8",
+    type: "image",
+    gridClass: "middle-right",
+    background: "linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%)",
+  },
+  {
+    id: "p9",
+    type: "image",
+    background: "linear-gradient(135deg, #2b2b2b 0%, #4f4f4f 100%)",
+  },
+  {
+    id: "p10",
+    type: "image",
+    background: "linear-gradient(135deg, #1b1b1b 0%, #353535 100%)",
+  },
+  {
+    id: "p11",
+    type: "image",
+    background: "linear-gradient(135deg, #2c2c2c 0%, #595959 100%)",
+  },
+  {
+    id: "p12",
+    type: "image",
+    background: "linear-gradient(135deg, #222222 0%, #4c4c4c 100%)",
+  },
+  {
+    id: "p13",
+    type: "image",
+    background: "linear-gradient(135deg, #1f1f1f 0%, #444444 100%)",
+  },
+];
+
+const wordsTail = [
+  { text: "mejor.", className: "word" },
+  { text: "Sin", className: "word thin" },
+  { text: "perder", className: "word thin" },
+  { text: "lo", className: "word thin" },
+  { text: "que", className: "word thin" },
+  { text: "la", className: "word thin" },
+  { text: "hace", className: "word thin" },
+];
+
+export function ShiftExperience() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const gridStageRef = useRef<HTMLDivElement | null>(null);
+  const gridRef = useRef<HTMLDivElement | null>(null);
+  const horizontalStageRef = useRef<HTMLDivElement | null>(null);
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const clusterShiftRef = useRef<HTMLDivElement | null>(null);
+  const progressFillRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !sectionRef.current) {
+      return;
+    }
+
+    const section = sectionRef.current;
+
+    const buildExperience = () => {
+      const gridStage = gridStageRef.current;
+      const grid = gridRef.current;
+      const target = grid?.querySelector(".target") as HTMLDivElement | null;
+      const horizontalStage = horizontalStageRef.current;
+      const track = trackRef.current;
+      const clusterShift = clusterShiftRef.current;
+      const progressFill = progressFillRef.current;
+
+      if (!gridStage || !grid || !target || !horizontalStage || !track || !clusterShift) {
+        return;
+      }
+
+      const others = grid.querySelectorAll(".grid-cell:not(.target)");
+      const leadSpacer = document.getElementById("leadSpacer");
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      const setGridTransformOrigin = () => {
+        const gridRect = grid.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+
+        const originX =
+          ((targetRect.left - gridRect.left) + targetRect.width / 2) /
+            gridRect.width *
+          100;
+
+        const originY =
+          ((targetRect.top - gridRect.top) + targetRect.height / 2) /
+            gridRect.height *
+          100;
+
+        grid.style.transformOrigin = `${originX}% ${originY}%`;
+      };
+
+      const centerHorizontalShift = () => {
+        if (!leadSpacer) {
+          return;
+        }
+
+        leadSpacer.style.width = "0px";
+        gsap.set(track, { x: 0 });
+
+        void track.offsetWidth;
+
+        const clusterRect = clusterShift.getBoundingClientRect();
+        const clusterCenter = clusterRect.left + clusterRect.width / 2;
+        const offsetNeeded = Math.max(window.innerWidth / 2 - clusterCenter, 0);
+
+        leadSpacer.style.width = `${offsetNeeded}px`;
+      };
+
+      const getHorizontalDistance = () => {
+        return Math.max(track.scrollWidth - window.innerWidth, 0);
+      };
+
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+
+      gsap.set(gridStage, { opacity: 1 });
+      gsap.set(grid, { scale: 1 });
+      gsap.set(others, { opacity: 1 });
+      gsap.set(horizontalStage, { opacity: 0 });
+      gsap.set(track, { x: 0 });
+      gsap.set(progressFill, { width: "0%" });
+
+      setGridTransformOrigin();
+      centerHorizontalShift();
+
+      const targetRect = target.getBoundingClientRect();
+      const scaleNeeded = (Math.max(window.innerWidth, window.innerHeight) / targetRect.width) * 1.15;
+      const distance = getHorizontalDistance();
+      const gridPhase = window.innerHeight * 1.42;
+      const horizontalStart = gridPhase;
+      const horizontalEnd = horizontalStart + distance;
+      const transitionDuration = window.innerHeight * 0.5;
+      const microDuration = Math.min(180, Math.max(90, distance * 0.06));
+
+      if (reduceMotion) {
+        gsap.set(gridStage, { opacity: 0 });
+        gsap.set(horizontalStage, { opacity: 1 });
+        gsap.set(track, { x: -distance });
+        if (progressFill) {
+          progressFill.style.width = "100%";
+        }
+        return;
+      }
+
+      const masterTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: () => `+=${horizontalEnd}`,
+          pin: true,
+          scrub: 0.6,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            if (progressFill) {
+              progressFill.style.width = `${self.progress * 100}%`;
+            }
+          },
+        },
+      });
+
+      masterTimeline.to(
+        grid,
+        { scale: scaleNeeded, duration: gridPhase, ease: "power1.in" },
+        0,
+      );
+
+      masterTimeline.to(
+        others,
+        {
+          opacity: 0,
+          duration: gridPhase * 0.7,
+          stagger: { each: 4, from: "edges" },
+          ease: "power1.in",
+        },
+        0.15,
+      );
+
+      masterTimeline.to(
+        horizontalStage,
+        {
+          opacity: 1,
+          duration: transitionDuration,
+          ease: "none",
+        },
+        gridPhase - window.innerHeight * 0.5,
+      );
+
+      masterTimeline.to(
+        gridStage,
+        {
+          opacity: 0,
+          duration: transitionDuration,
+          ease: "none",
+        },
+        gridPhase - window.innerHeight * 0.5,
+      );
+
+      masterTimeline.to(
+        track,
+        {
+          x: -distance,
+          duration: distance,
+          ease: "none",
+        },
+        horizontalStart,
+      );
+
+      masterTimeline.fromTo(
+        "#shiftLogoTarget",
+        { opacity: 1, scale: 1 },
+        {
+          opacity: 0,
+          scale: 0.72,
+          duration: transitionDuration * 0.85,
+          ease: "power2.inOut",
+        },
+        gridPhase - transitionDuration * 1.35,
+      );
+
+      masterTimeline.fromTo(
+        "#clusterShift",
+        { opacity: 0, scale: 0.9, x: 28 },
+        { opacity: 1, scale: 1, x: 0, duration: transitionDuration, ease: "power2.out" },
+        gridPhase - transitionDuration,
+      );
+
+      masterTimeline.fromTo(
+        "#enLabel",
+        { opacity: 0, y: "0.9em" },
+        { opacity: 1, y: 0, duration: microDuration, ease: "power2.out" },
+        horizontalStart + distance * 0.03,
+      );
+
+      masterTimeline.fromTo(
+        "#pillAgency",
+        { opacity: 0, rotation: -46 },
+        { opacity: 1, rotation: 8, duration: microDuration, ease: "back.out(1.8)" },
+        horizontalStart + distance * 0.04,
+      );
+
+      masterTimeline.fromTo(
+        "#wordAyudamos",
+        { opacity: 0, y: "0.5em" },
+        { opacity: 1, y: 0, duration: microDuration, ease: "power2.out" },
+        horizontalStart + distance * 0.08,
+      );
+
+      masterTimeline.fromTo(
+        "#typewriterWrap",
+        { clipPath: "inset(0 100% 0 0)", opacity: 0 },
+        { clipPath: "inset(0 0% 0 0)", opacity: 1, duration: microDuration, ease: "steps(12)" },
+        horizontalStart + distance * 0.16,
+      );
+
+      masterTimeline.fromTo(
+        "#decoSymbols",
+        { opacity: 0, y: "0.3em" },
+        { opacity: 1, y: 0, duration: microDuration * 0.85, ease: "power2.out" },
+        horizontalStart + distance * 0.2,
+      );
+
+      masterTimeline.fromTo(
+        "#decoDashes",
+        { scaleX: 0, opacity: 0 },
+        { scaleX: 1, opacity: 1, duration: microDuration * 0.9, ease: "power2.out" },
+        horizontalStart + distance * 0.23,
+      );
+
+      masterTimeline.fromTo(
+        "#pillComunicar",
+        { opacity: 0, rotation: 34 },
+        { opacity: 1, rotation: -5, duration: microDuration, ease: "back.out(1.8)" },
+        horizontalStart + distance * 0.3,
+      );
+
+      masterTimeline.fromTo(
+        "#amp",
+        { opacity: 0 },
+        { opacity: 1, duration: microDuration * 0.7, ease: "power2.out" },
+        horizontalStart + distance * 0.38,
+      );
+
+      masterTimeline.fromTo(
+        "#pillVerse",
+        { opacity: 0, rotation: -40 },
+        { opacity: 1, rotation: 6, duration: microDuration, ease: "back.out(1.8)" },
+        horizontalStart + distance * 0.45,
+      );
+
+      masterTimeline.fromTo(
+        ["#spark1", "#spark2"],
+        { opacity: 0, scale: 0.4, rotation: -20 },
+        { opacity: 1, scale: 1, rotation: 0, duration: microDuration * 0.85, ease: "back.out(3)" },
+        horizontalStart + distance * 0.52,
+      );
+
+      masterTimeline.fromTo(
+        "#starCom",
+        { opacity: 0, scale: 0.5 },
+        { opacity: 0.85, scale: 1, duration: microDuration, ease: "power2.out" },
+        horizontalStart + distance * 0.28,
+      );
+
+      masterTimeline.fromTo(
+        "#starVerse",
+        { opacity: 0, scale: 0.5 },
+        { opacity: 0.85, scale: 1, duration: microDuration, ease: "power2.out" },
+        horizontalStart + distance * 0.48,
+      );
+
+      const words = gsap.utils.toArray<HTMLElement>("#wordsTail [data-w]");
+
+      words.forEach((word, index) => {
+        masterTimeline.fromTo(
+          word,
+          { opacity: 0, y: "0.5em" },
+          { opacity: 1, y: 0, duration: microDuration * 0.85, ease: "power2.out" },
+          horizontalStart + distance * (0.62 + index * 0.025),
+        );
+      });
+
+      masterTimeline.fromTo(
+        "#pillUnica",
+        { opacity: 0, x: "2.4em" },
+        { opacity: 1, x: 0, duration: microDuration, ease: "power3.out" },
+        horizontalStart + distance * 0.82,
+      );
+    };
+
+    let resizeTimer: number | undefined;
+
+    const handleResize = () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(buildExperience, 150);
+    };
+
+    buildExperience();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      gsap.killTweensOf("*");
+    };
+  }, []);
+
+  return (
+    <section id="shift-experience" ref={sectionRef} className="shift-experience-shell">
+      <div className="grid-stage" ref={gridStageRef}>
+        <div className="zoom-grid" ref={gridRef}>
+          {galleryItems.map((item) => (
+            <div
+              key={item.id}
+              className={`grid-cell ${item.gridClass ?? ""} ${item.type === "shift" ? "target" : ""}`.trim()}
+            >
+              {item.type === "image" ? (
+                <div
+                  className="gallery-visual"
+                  style={{ background: item.background }}
+                  aria-hidden
+                />
+              ) : (
+                <div className="grid-shift">
+                  <span className="shift-logo" id="shiftLogoTarget">
+                    Shift
+                  </span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="horizontal-stage" ref={horizontalStageRef}>
+        <div className="horizontal-track" ref={trackRef}>
+          <div id="leadSpacer" />
+
+          <div className="item cluster-shift" id="clusterShift" ref={clusterShiftRef}>
+            <span className="en-label" id="enLabel">
+              En
+            </span>
+
+            <span className="pill shift">Shift</span>
+
+            <span className="pill agency" id="pillAgency">
+              Agency
+            </span>
+          </div>
+
+          <div className="item">
+            <span className="word" id="wordAyudamos">
+              ayudamos a
+            </span>
+          </div>
+
+          <div className="item marca-wrap">
+            <span className="deco-symbols" id="decoSymbols">
+              x &#125; y &#35; / !
+            </span>
+
+            <span className="word typewriter" id="typewriterWrap">
+              <span className="txt">tu marca</span>
+            </span>
+
+            <span className="deco-dashes" id="decoDashes" />
+          </div>
+
+          <div className="item">
+            <span className="word">a</span>
+          </div>
+
+          <div className="item cluster-com" id="clusterCom">
+            <span className="bigstar behind-com" id="starCom">
+              <span className="spin">
+                <svg viewBox="0 0 156 154" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M77.9951 143.966V110.875" stroke="#F2EFEB" strokeWidth="8.06903" strokeMiterlimit="10" strokeLinecap="round" />
+                  <path d="M30.6445 124.348L54.0457 100.951" stroke="#F2EFEB" strokeWidth="8.06903" strokeMiterlimit="10" strokeLinecap="round" />
+                  <path d="M11.0352 76.9961H44.1266" stroke="#F2EFEB" strokeWidth="8.06903" strokeMiterlimit="10" strokeLinecap="round" />
+                  <path d="M30.6543 29.6465L54.0507 53.0476" stroke="#F2EFEB" strokeWidth="8.06903" strokeMiterlimit="10" strokeLinecap="round" />
+                  <path d="M78.0049 10.0352V43.1266" stroke="#F2EFEB" strokeWidth="8.06903" strokeMiterlimit="10" strokeLinecap="round" />
+                  <path d="M125.355 29.6543L101.954 53.0507" stroke="#F2EFEB" strokeWidth="8.06903" strokeMiterlimit="10" strokeLinecap="round" />
+                  <path d="M144.965 77.0039H111.874" stroke="#F2EFEB" strokeWidth="8.06903" strokeMiterlimit="10" strokeLinecap="round" />
+                  <path d="M125.346 124.356L101.949 100.955" stroke="#F2EFEB" strokeWidth="8.06903" strokeMiterlimit="10" strokeLinecap="round" />
+                </svg>
+              </span>
+            </span>
+
+            <span className="pill comunicar" id="pillComunicar">
+              Comunicar
+            </span>
+
+            <span className="word amp" id="amp">
+              &amp;
+            </span>
+
+            <span className="pill verse" id="pillVerse">
+              Verse
+            </span>
+
+            <span className="spark s1" id="spark1">
+              <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 0 L23 17 L40 20 L23 23 L20 40 L17 23 L0 20 L17 17 Z" fill="#F2EFEB" />
+              </svg>
+            </span>
+
+            <span className="spark s2" id="spark2">
+              <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 0 L23 17 L40 20 L23 23 L20 40 L17 23 L0 20 L17 17 Z" fill="#F2EFEB" />
+              </svg>
+            </span>
+
+            <span className="bigstar behind-verse" id="starVerse">
+              <span className="spin">
+                <svg viewBox="0 0 156 154" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M77.9951 143.966V110.875" stroke="#F2EFEB" strokeWidth="8.06903" strokeMiterlimit="10" strokeLinecap="round" />
+                  <path d="M30.6445 124.348L54.0457 100.951" stroke="#F2EFEB" strokeWidth="8.06903" strokeMiterlimit="10" strokeLinecap="round" />
+                  <path d="M11.0352 76.9961H44.1266" stroke="#F2EFEB" strokeWidth="8.06903" strokeMiterlimit="10" strokeLinecap="round" />
+                  <path d="M30.6543 29.6465L54.0507 53.0476" stroke="#F2EFEB" strokeWidth="8.06903" strokeMiterlimit="10" strokeLinecap="round" />
+                  <path d="M78.0049 10.0352V43.1266" stroke="#F2EFEB" strokeWidth="8.06903" strokeMiterlimit="10" strokeLinecap="round" />
+                  <path d="M125.355 29.6543L101.954 53.0507" stroke="#F2EFEB" strokeWidth="8.06903" strokeMiterlimit="10" strokeLinecap="round" />
+                  <path d="M144.965 77.0039H111.874" stroke="#F2EFEB" strokeWidth="8.06903" strokeMiterlimit="10" strokeLinecap="round" />
+                  <path d="M125.346 124.356L101.949 100.955" stroke="#F2EFEB" strokeWidth="8.06903" strokeMiterlimit="10" strokeLinecap="round" />
+                </svg>
+              </span>
+            </span>
+          </div>
+
+          <div className="item words-tail" id="wordsTail">
+            {wordsTail.map((word, index) => (
+              <span key={`${word.text}-${index}`} className={word.className} data-w>
+                {word.text}
+              </span>
+            ))}
+          </div>
+
+          <div className="item">
+            <span className="pill unica" id="pillUnica">
+              Única.
+            </span>
+          </div>
+
+          <div id="tailSpacer" />
+        </div>
+      </div>
+    </section>
+  );
+}
