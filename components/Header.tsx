@@ -55,8 +55,8 @@ export function Header() {
                 : "left-2 right-1/2 md:left-3"
             }`}
           />
-          <span className="relative z-10 flex w-1/2 items-center justify-center">ES</span>
-          <span className="relative z-10 flex w-1/2 items-center justify-center">EN</span>
+          <span className="relative z-10 flex w-1/2 items-center justify-center text-body">ES</span>
+          <span className="relative z-10 flex w-1/2 items-center justify-center text-body">EN</span>
         </button>
       </nav>
     </header>

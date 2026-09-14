@@ -29,7 +29,7 @@ const config: Config = {
         h3: "40px",
         h4: "24px",
         h5: "20px",
-        body: "18px",
+        body: "14px",
         xxxl: "150px",
       },
       maxWidth: {
