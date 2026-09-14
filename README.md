@@ -1,46 +1,81 @@
-# Shift Agency — sitio web
+# Shift Agency
 
-Base del proyecto: Next.js 14 (App Router) + TypeScript + Tailwind + Framer Motion.
+Sitio web de Shift Agency, construido con Next.js y una dirección visual editorial enfocada en estrategia, diseño y comunicación.
 
-## Cómo arrancar
+## Stack
+
+- Next.js 14 con App Router
+- TypeScript
+- Tailwind CSS
+- GSAP + ScrollTrigger para la experiencia de zoom y scroll horizontal
+- Framer Motion para estadísticas y transiciones de contenido
+- Font Awesome y Lucide React para iconografía
+- Magnetik y Space Grotesk como tipografías locales
+
+## Desarrollo
 
 ```bash
 npm install
 npm run dev
 ```
 
-Abrí http://localhost:3000
+La aplicación queda disponible en [http://localhost:3000](http://localhost:3000).
+
+## Comandos
+
+```bash
+npm run dev      # servidor de desarrollo
+npm run build    # compilación de producción
+npm run start    # servidor de producción
+npm run lint     # lint de Next.js
+```
 
 ## Estructura
 
-```
+```text
 app/
-  layout.tsx       → fuentes, metadata, wrapper global
-  page.tsx         → arma todas las secciones de la home
-  globals.css       → estilos base, focus visible, reduced-motion
+  layout.tsx                 # metadata, fuentes y layout global
+  page.tsx                   # composición de la home
+  globals.css                # tokens y estilos globales
+  proyectos/[slug]/page.tsx  # páginas estáticas de detalle de proyecto
+
 components/
-  Header.tsx        → nav fija
-  Hero.tsx          → hero con headline y collage de imágenes
-  Servicios.tsx      → lista de servicios
-  Nosotros.tsx        → stats animados (count-up con Framer Motion)
-  Trabajos.tsx         → grid de proyectos (placeholder de datos)
-  Reviews.tsx           → tabla de reviews + score
-  Contacto.tsx          → form de consulta
-  Footer.tsx             → pie de página
+  Header.tsx                 # navegación principal
+  Hero.tsx                   # hero con video de Shift Agency
+  Servicios.tsx              # servicios de la agencia
+  Nosotros.tsx               # presentación y estadísticas animadas
+  ShiftExperience.tsx        # zoom grid + scroll horizontal GSAP
+  Trabajos.tsx               # tarjetas y enlaces a proyectos
+  Reviews.tsx                # tabla de reviews con tooltip de mensajes
+  Contacto.tsx               # formulario y datos de contacto
+  Footer.tsx                 # pie de página
+
 lib/
-  fonts.ts               → config de Magnetik (local) + Space Grotesk (Google)
+  fonts.ts                   # configuración de fuentes locales
+  i18n.tsx                   # contenido en español e inglés
+
+public/
+  fonts/                     # Magnetik y Space Grotesk
+  images/                    # imágenes públicas de proyectos
+  videos/                    # videos del hero
 ```
 
-## Pendientes antes de seguir
+## Rutas de proyectos
 
-- [ ] Reemplazar el placeholder de logo en `Header.tsx` por el SVG real
-      (versión clara, para que se vea sobre el fondo oscuro).
-- [ ] Confirmar el hex exacto del negro de fondo — está en `#0A0A0A` como
-      placeholder en `tailwind.config.ts` (`colors.surface`).
-- [ ] Reemplazar los bloques grises (`bg-surface-raised` con `aria-hidden`)
-      en `Hero.tsx` y `Trabajos.tsx` por imágenes reales con `next/image`.
-- [ ] Conectar el form de `Contacto.tsx` a una server action o API route
-      (hoy el `action="#"` es un placeholder).
-- [ ] Decidir de dónde salen los datos de `Trabajos` y `Reviews`: si se van
-      a actualizar seguido, conviene un CMS headless (Sanity/Contentful) en
-      vez de tenerlos hardcodeados como están ahora.
+Las tarjetas de `Trabajos` enlazan a páginas generadas estáticamente:
+
+- `/proyectos/diseno-web`
+- `/proyectos/rebranding`
+- `/proyectos/creacion-de-contenido`
+
+La página dinámica comparte la información del proyecto, objetivo, servicios, métricas, galería y CTA de contacto.
+
+## Contenido y configuración
+
+El contenido actual está definido en `lib/i18n.tsx` y soporta español e inglés. Las miniaturas se sirven desde `public/images` y los videos desde `public/videos`; en URLs públicas no se incluye el segmento `public`.
+
+## Pendientes
+
+- Conectar el formulario de contacto a una server action o API route. Actualmente usa `action="#"` como placeholder.
+- Migrar los datos de proyectos y reviews a un CMS cuando comiencen a actualizarse con frecuencia.
+- Reemplazar los placeholders visuales por assets finales donde todavía corresponda.
