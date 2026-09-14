@@ -21,17 +21,19 @@ export function Hero() {
         </h1>
 
         <p className="mt-6 max-w-l text-ink text-h4 font-light">{content.hero.description}</p>
+      </div>
 
-        {/* Acá va el vídeo */}
-        <div className="mt-16 grid grid-cols-2 gap-4 opacity-60 md:grid-cols-4">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div
-              key={i}
-              className="aspect-[4/3] rounded-lg bg-surface-raised"
-              aria-hidden
-            />
-          ))}
-        </div>
+      <div className="relative left-1/2 mt-16 w-screen -translate-x-1/2 overflow-hidden bg-surface-raised opacity-60">
+        <video
+          className="aspect-[4/3] h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-label="Video de Shift Agency"
+        >
+          <source src="/videos/Video-Shift%20Agency.mp4" type="video/mp4" />
+        </video>
       </div>
     </section>
   );
