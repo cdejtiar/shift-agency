@@ -499,6 +499,10 @@
     border-radius: 4px;
   }
 
+  footer img{
+    width:15%;
+  }
+
   @media (max-width: 700px) {
     .zoom-grid {
       width: calc(100% - 3rem);

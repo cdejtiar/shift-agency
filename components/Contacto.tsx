@@ -17,14 +17,8 @@ import {
 
 export function Contacto() {
   const { content } = useLanguage();
-  const [selectedInteres, setSelectedInteres] = useState<string>("DISEÑO WEB");
-
-  const opcionesInteres = [
-    "DISEÑO WEB",
-    "REDES SOCIALES",
-    "DISEÑO GRÁFICO",
-    "OTRO",
-  ];
+  const [selectedInteres, setSelectedInteres] = useState(0);
+  const opcionesInteres = content.contact.interestOptions;
 
   return (
     <section id="contacto" className="bg-surface px-6 py-28 text-cream font-display">
@@ -43,8 +37,8 @@ export function Contacto() {
           <div className="flex flex-col justify-start space-y-12 lg:col-span-5">
             <div className="space-y-6">
               <h3 className="text-h2 font-bold leading-tight md:text-h3">
-                Hablemos <br />
-                de tu proyecto
+                {content.contact.headlineFirst} <br />
+                {content.contact.headlineSecond}
               </h3>
               <p className="max-w-xs text-h5 leading-relaxed text-ink">
                 {content.contact.description}
@@ -129,7 +123,7 @@ export function Contacto() {
           {/* Columna Derecha - Formulario */}
           <div className="rounded-3xl border border-white/10 bg-surface-raised p-8 md:p-12 lg:col-span-7">
             <h3 className="mb-8 text-3xl font-bold text-cream md:text-h3">
-              Enviar consulta
+              {content.contact.formTitle}
             </h3>
 
             <form className="space-y-6" action="#" method="post"> {/* NO LLEVA A NINGÚN LADO!!!! */}
@@ -145,7 +139,7 @@ export function Contacto() {
                   id="nombre"
                   name="nombre"
                   type="text"
-                  placeholder="Tu nombre completo"
+                  placeholder={content.contact.namePlaceholder}
                   required
                   className="w-full border-b border-white/20 bg-transparent py-2 text-body text-cream placeholder-ink outline-none transition-colors focus:border-violet"
                 />
@@ -164,7 +158,7 @@ export function Contacto() {
                     id="email"
                     name="email"
                     type="email"
-                    placeholder="Tu@email.com"
+                    placeholder={content.contact.emailPlaceholder}
                     required
                     className="w-full border-b border-white/20 bg-transparent py-2 text-body text-cream placeholder-ink outline-none transition-colors focus:border-violet"
                   />
@@ -181,7 +175,7 @@ export function Contacto() {
                     id="telefono"
                     name="telefono"
                     type="tel"
-                    placeholder="+54 9 11..."
+                    placeholder={content.contact.phonePlaceholder}
                     className="font-body w-full border-b border-white/20 bg-transparent py-2 text-body text-cream placeholder-ink outline-none transition-colors focus:border-violet"
                   />
                 </div>
@@ -199,7 +193,7 @@ export function Contacto() {
                   id="asunto"
                   name="asunto"
                   type="text"
-                  placeholder="¿Sobre qué nos querés consultar?"
+                  placeholder={content.contact.subjectPlaceholder}
                   className="w-full border-b border-white/20 bg-transparent py-2 text-body text-cream placeholder-ink outline-none transition-colors focus:border-violet"
                 />
               </div>
@@ -209,15 +203,15 @@ export function Contacto() {
                 <label className="block text-xs font-bold uppercase tracking-wider text-violet">
                   INTERÉS
                 </label>
-                <input type="hidden" name="interes" value={selectedInteres} />
+                <input type="hidden" name="interes" value={opcionesInteres[selectedInteres]} />
                 <div className="flex flex-wrap gap-2">
-                  {opcionesInteres.map((opcion) => {
-                    const isSelected = selectedInteres === opcion;
+                  {opcionesInteres.map((opcion, index) => {
+                    const isSelected = selectedInteres === index;
                     return (
                       <button
                         key={opcion}
                         type="button"
-                        onClick={() => setSelectedInteres(opcion)}
+                        onClick={() => setSelectedInteres(index)}
                         className={`rounded-full px-4 py-2 text-xs font-bold tracking-wider transition-colors ${
                           isSelected
                             ? "bg-violet text-cream"
@@ -243,13 +237,13 @@ export function Contacto() {
                   id="mensaje"
                   name="mensaje"
                   rows={3}
-                  placeholder="Contanos más sobre lo que estás buscando"
+                  placeholder={content.contact.messagePlaceholder}
                   required
                   className="w-full border-b border-white/20 bg-transparent py-2 text-body text-cream placeholder-ink outline-none transition-colors focus:border-violet"
                 />
               </div>
 
-              <p className="text-[11px] text-ink">* Campos obligatorios</p>
+              <p className="text-[11px] text-ink">{content.contact.requiredNote}</p>
 
               {/* Botón de envío */}
               <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:items-center sm:justify-between">

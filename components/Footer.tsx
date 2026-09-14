@@ -16,12 +16,13 @@ export function Footer() {
   ];
 
   return (
-    <footer className="magnetik border-t border-white/10 bg-surface px-6 py-16 text-cream md:px-8 md:py-20">
+    <footer className="magnetik bg-surface-raised px-6 py-16 text-cream md:px-8 md:py-20">
       <div className="mx-auto max-w-7xl">
         <div className="flex gap-12 justify-between">
+          <img src="./images/Icono shift.svg" alt="Logo Shift" />
           <div>
-            <h2 className="text-lg magnetik">{content.header.links[3]}</h2>
-            <nav aria-label="Navegación del footer" className="mt-6 flex flex-col items-start gap-3">
+            <h2 className="text-lg magnetik">{content.footer.navigation}</h2>
+            <nav aria-label={content.footer.ariaLabel} className="mt-6 flex flex-col items-start gap-3">
               {navigation.map((link) => (
                 <a
                   key={link.href}
@@ -35,7 +36,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h2 className="text-lg magnetik">Social Media</h2>
+            <h2 className="text-lg magnetik">{content.footer.socialMedia}</h2>
             <div className="mt-6 flex flex-col items-start gap-3">
               <a
                 href="https://www.instagram.com/shiftagency"
@@ -61,7 +62,7 @@ export function Footer() {
           <div>
             <h2 className="text-lg magnetik">{content.contact.title}</h2>
             <div className="mt-6 space-y-3 text-lg text-ink">
-              <p>Buenos Aires, Argentina</p>
+              <p>{content.footer.location}</p>
               <a className="block transition-colors hover:text-cream" href="mailto:info@shiftagency.com.ar">
                 info@shiftagency.com.ar
               </a>
@@ -79,10 +80,10 @@ export function Footer() {
         </div>
 
         <div className="mt-20 flex flex-col gap-6 border-t border-white/20 pt-7 text-sm text-ink md:flex-row md:items-center md:justify-between">
-          <p>Todos los derechos reservados {year} ©</p>
-          <p className="text-center">Comunicá y verte mejor.</p>
+          <p>{content.footer.rights} {year} ©</p>
+          <p className="text-center">{content.footer.tagline}</p>
           <a href="#hero" className="inline-flex items-center gap-2 transition-colors hover:text-cream md:justify-end">
-            Volver arriba <span aria-hidden>↑</span>
+            {content.footer.backToTop} <span aria-hidden>↑</span>
           </a>
         </div>
       </div>

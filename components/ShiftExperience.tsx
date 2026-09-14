@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLanguage } from "@/lib/i18n";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -79,17 +80,12 @@ const galleryItems: GalleryItem[] = [
   },
 ];
 
-const wordsTail = [
-  { text: "mejor.", className: "word" },
-  { text: "Sin", className: "word thin" },
-  { text: "perder", className: "word thin" },
-  { text: "lo", className: "word thin" },
-  { text: "que", className: "word thin" },
-  { text: "la", className: "word thin" },
-  { text: "hace", className: "word thin" },
-];
-
 export function ShiftExperience() {
+  const { content, language } = useLanguage();
+  const wordsTail = content.shiftExperience.tailWords.map((text, index) => ({
+    text,
+    className: index === 0 ? "word" : "word thin",
+  }));
   const sectionRef = useRef<HTMLElement | null>(null);
   const gridStageRef = useRef<HTMLDivElement | null>(null);
   const gridRef = useRef<HTMLDivElement | null>(null);
@@ -392,7 +388,7 @@ export function ShiftExperience() {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
       gsap.killTweensOf("*");
     };
-  }, []);
+  }, [language]);
 
   return (
     <section id="shift-experience" ref={sectionRef} className="shift-experience-shell">
@@ -427,29 +423,29 @@ export function ShiftExperience() {
 
           <div className="item cluster-shift" id="clusterShift" ref={clusterShiftRef}>
             <span className="en-label" id="enLabel">
-              En
+              {content.shiftExperience.enLabel}
             </span>
 
             <span className="pill shift">Shift</span>
 
             <span className="pill agency" id="pillAgency">
-              Agency
+              {content.shiftExperience.agency}
             </span>
           </div>
 
           <div className="item">
             <span className="word" id="wordAyudamos">
-              ayudamos a
+              {content.shiftExperience.helping}
             </span>
           </div>
 
           <div className="item marca-wrap">
             <span className="deco-symbols" id="decoSymbols">
-              x &#125; y &#35; / !
+              {content.shiftExperience.decoration}
             </span>
 
             <span className="word typewriter" id="typewriterWrap">
-              <span className="txt">tu marca</span>
+              <span className="txt">{content.shiftExperience.brand}</span>
             </span>
 
             <span className="deco-dashes" id="decoDashes" />
@@ -476,7 +472,7 @@ export function ShiftExperience() {
             </span>
 
             <span className="pill comunicar" id="pillComunicar">
-              Comunicar
+              {content.shiftExperience.communicate}
             </span>
 
             <span className="word amp" id="amp">
@@ -484,7 +480,7 @@ export function ShiftExperience() {
             </span>
 
             <span className="pill verse" id="pillVerse">
-              Verse
+              {content.shiftExperience.verse}
             </span>
 
             <span className="spark s1" id="spark1">
@@ -525,7 +521,7 @@ export function ShiftExperience() {
 
           <div className="item">
             <span className="pill unica" id="pillUnica">
-              Única.
+              {content.shiftExperience.unique}
             </span>
           </div>
 
