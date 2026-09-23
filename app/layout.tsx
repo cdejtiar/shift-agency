@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { magnetik, spaceGrotesk } from "@/lib/fonts";
+import { Preloader } from "@/components/Preloader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,7 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={`${magnetik.variable} ${spaceGrotesk.variable}`}>
-      <body>{children}</body>
+      <body>
+        <Preloader>{children}</Preloader>
+      </body>
     </html>
   );
 }
