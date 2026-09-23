@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PageMotion } from "@/components/animations/PageMotion";
 
 const sections = [
   {
@@ -41,24 +42,26 @@ const sections = [
 
 export default function PoliticaDePrivacidadPage() {
   return (
+    <PageMotion>
     <main className="min-h-screen bg-surface text-cream">
       <section className="px-6 py-20 md:px-16 md:py-28 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <Link
+            data-page-back
             href="/"
             className="text-sm text-ink transition-colors hover:text-cream"
           >
             ← Volver al inicio
           </Link>
 
-          <h1 className="mt-10 text-h1 leading-[0.95]">Política de Privacidad</h1>
-          <p className="mt-6 max-w-2xl text-h5 text-ink">
+          <div className="overflow-hidden"><h1 data-page-title className="mt-10 text-h1 leading-[0.95]">Política de Privacidad</h1></div>
+          <p data-page-intro className="mt-6 max-w-2xl text-h5 text-ink">
             Última actualización: 23 de septiembre de 2026
           </p>
 
           <div className="mt-16 flex flex-col gap-12">
             {sections.map((section) => (
-              <article key={section.title}>
+              <article data-page-section key={section.title}>
                 <h2 className="text-h4 text-cream">{section.title}</h2>
                 <p className="mt-3 max-w-3xl text-ink">{section.body}</p>
               </article>
@@ -67,5 +70,6 @@ export default function PoliticaDePrivacidadPage() {
         </div>
       </section>
     </main>
+    </PageMotion>
   );
 }

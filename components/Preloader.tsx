@@ -28,7 +28,10 @@ export function Preloader({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (phase !== "exiting") return;
-    const doneTimeout = setTimeout(() => setPhase("done"), 900);
+    const doneTimeout = setTimeout(() => {
+      setPhase("done");
+      window.dispatchEvent(new CustomEvent("shift:preloader-complete"));
+    }, 900);
     return () => clearTimeout(doneTimeout);
   }, [phase]);
 
@@ -73,7 +76,7 @@ export function Preloader({ children }: { children: React.ReactNode }) {
           </span>
         </div>
       )}
-      {children}
+      <div data-preloader-phase={phase}>{children}</div>
     </>
   );
 }
