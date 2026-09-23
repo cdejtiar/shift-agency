@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import {
   AnimatePresence,
   motion,
@@ -9,6 +10,7 @@ import {
   useScroll,
   useSpring,
 } from "framer-motion";
+
 import { useLanguage } from "@/lib/i18n";
 
 const stats = [
@@ -18,38 +20,77 @@ const stats = [
   { value: 100, suffix: "%" },
 ];
 
-// Una posición (en % del contenedor) por cada stat, para las dos imágenes.
-// Cambiá estos valores a ojo para reacomodarlas como quieras.
 const imagePositions = [
-  { image1: { top: "15%", left: "8%" }, image2: { top: "68%", left: "80%" } },
-  { image1: { top: "62%", left: "10%" }, image2: { top: "18%", left: "78%" } },
-  { image1: { top: "20%", left: "75%" }, image2: { top: "64%", left: "12%" } },
-  { image1: { top: "66%", left: "68%" }, image2: { top: "16%", left: "16%" } },
+  {
+    image1: { top: "15%", left: "8%" },
+    image2: { top: "68%", left: "80%" },
+  },
+  {
+    image1: { top: "62%", left: "10%" },
+    image2: { top: "18%", left: "78%" },
+  },
+  {
+    image1: { top: "20%", left: "75%" },
+    image2: { top: "64%", left: "12%" },
+  },
+  {
+    image1: { top: "66%", left: "68%" },
+    image2: { top: "16%", left: "16%" },
+  },
 ];
 
-// Vuelve a ser el contador con spring, pero ahora "target" se actualiza
-// cada vez que cambia el stat activo — así cuenta de un valor al siguiente
-// en vez de solo animar una vez al entrar en pantalla.
-function SpringCounter({ target, suffix }: { target: number; suffix: string }) {
-  const motionValue = useMotionValue(target);
-  const springValue = useSpring(motionValue, { damping: 30, stiffness: 100 });
-  const [display, setDisplay] = useState(target);
+function SpringCounter({
+  target,
+  suffix,
+  active,
+  onComplete,
+}: {
+  target: number;
+  suffix: string;
+  active: boolean;
+  onComplete: () => void;
+}) {
+  const motionValue = useMotionValue(0);
+
+  const springValue = useSpring(motionValue, {
+    damping: 30,
+    stiffness: 100,
+  });
+
+  const [display, setDisplay] = useState(0);
+
+  const completedRef = useRef(false);
 
   useEffect(() => {
+    completedRef.current = false;
+  }, [target]);
+
+  useEffect(() => {
+    if (!active) return;
+
     motionValue.set(target);
-  }, [target, motionValue]);
+  }, [active, target, motionValue]);
 
   useEffect(() => {
     return springValue.on("change", (latest) => {
       setDisplay(Math.round(latest));
+
+      if (
+        !completedRef.current &&
+        Math.abs(latest - target) < 0.5
+      ) {
+        completedRef.current = true;
+        onComplete();
+      }
     });
-  }, [springValue]);
+  }, [springValue, target, onComplete]);
 
   return (
     <h2 className="flex items-start gap-2 text-xxxl">
       {display}
+
       <span className="py-2 text-h1 text-violet">
-              {suffix}
+        {suffix}
       </span>
     </h2>
   );
@@ -64,7 +105,8 @@ function VerticalProgress({
   total: number;
   activeLabel: string;
 }) {
-  const percent = total > 1 ? (activeIndex / (total - 1)) * 100 : 0;
+  const percent =
+    total > 1 ? (activeIndex / (total - 1)) * 100 : 0;
 
   return (
     <div className="absolute right-6 top-1/2 z-10 hidden -translate-y-1/2 flex-col items-center gap-4 md:right-10 md:flex">
@@ -73,7 +115,10 @@ function VerticalProgress({
           aria-hidden
           className="absolute left-1/2 h-6 w-[3px] -translate-x-1/2 rounded-full bg-violet"
           animate={{ top: `${percent}%` }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          transition={{
+            duration: 0.4,
+            ease: [0.16, 1, 0.3, 1],
+          }}
           style={{ marginTop: "-12px" }}
         />
       </div>
@@ -94,10 +139,6 @@ function VerticalProgress({
   );
 }
 
-// El div exterior se encarga SOLO de la posición (cambia según el stat
-// activo). El div interior se encarga SOLO del flote infinito. Separados
-// para que no compitan por la misma propiedad "transform", igual que
-// hicimos con el anillo del RotatingBadge.
 function FloatingImage({
   position,
   floatDuration,
@@ -114,7 +155,10 @@ function FloatingImage({
       aria-hidden
       className="absolute z-0 h-20 w-28 sm:h-28 sm:w-36 lg:h-36 lg:w-44"
       animate={position}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      transition={{
+        duration: 0.6,
+        ease: [0.16, 1, 0.3, 1],
+      }}
     >
       <motion.div
         className="h-full w-full overflow-hidden rounded-lg bg-surface"
@@ -142,51 +186,115 @@ function FloatingImage({
 
 export function Nosotros() {
   const { content } = useLanguage();
+
   const pinRef = useRef<HTMLDivElement>(null);
+
   const [activeIndex, setActiveIndex] = useState(0);
+  const [hasEnteredStats, setHasEnteredStats] =
+    useState(false);
+  const [isCounterAnimating, setIsCounterAnimating] =
+    useState(false);
 
   const { scrollYProgress } = useScroll({
     target: pinRef,
     offset: ["start start", "end end"],
   });
 
-  useMotionValueEvent(scrollYProgress, "change", (progress) => {
-    const index = Math.min(
-      stats.length - 1,
-      Math.floor(progress * stats.length)
-    );
-    setActiveIndex(index);
-  });
+  /*
+   * Detectamos cuándo entramos realmente al scroll-jacking.
+   */
+  useMotionValueEvent(
+    scrollYProgress,
+    "change",
+    (progress) => {
+      if (progress > 0 && !hasEnteredStats) {
+        setHasEnteredStats(true);
+        setIsCounterAnimating(true);
+      }
+
+      const index = Math.min(
+        stats.length - 1,
+        Math.floor(progress * stats.length)
+      );
+
+      if (index !== activeIndex) {
+        setIsCounterAnimating(true);
+        setActiveIndex(index);
+      }
+    }
+  );
+
+  /*
+   * Bloqueamos nuevos movimientos de rueda mientras
+   * el contador está haciendo su animación.
+   *
+   * El movimiento que provoca el cambio de stat ya ocurrió;
+   * lo que bloqueamos es que el usuario pueda seguir
+   * avanzando antes de que termine el counter.
+   */
+  useEffect(() => {
+    const handleWheel = (event: WheelEvent) => {
+      if (!isCounterAnimating) return;
+
+      event.preventDefault();
+    };
+
+    window.addEventListener("wheel", handleWheel, {
+      passive: false,
+    });
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+    };
+  }, [isCounterAnimating]);
+
+  const handleCounterComplete = useCallback(() => {
+    setIsCounterAnimating(false);
+  }, []);
 
   const current = stats[activeIndex];
-  const currentLabel = content.about.stats[activeIndex];
-  const currentDescription = content.about.statsDescription[activeIndex];
-  const currentPositions = imagePositions[activeIndex];
-  const currentImage1 = content.about.statsImages?.[activeIndex]?.image1 ?? "";
-  const currentImage2 = content.about.statsImages?.[activeIndex]?.image2 ?? "";
+
+  const currentLabel =
+    content.about.stats[activeIndex];
+
+  const currentDescription =
+    content.about.statsDescription[activeIndex];
+
+  const currentPositions =
+    imagePositions[activeIndex];
+
+  const currentImage1 =
+    content.about.statsImages?.[activeIndex]?.image1 ?? "";
+
+  const currentImage2 =
+    content.about.statsImages?.[activeIndex]?.image2 ?? "";
 
   return (
     <section id="nosotros">
-      {/* Presentación de la sección — scroll normal, NO pineada */}
+      {/* Presentación de la sección — scroll normal */}
       <div className="bg-surface-raised px-6 py-32 backdrop-blur-xl md:px-16 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <h2 className="mb-10 flex items-start gap-2 text-h2">
             {content.about.title}
-            <span className="self-start text-h3 spacegrotesk-bold text-violet">
+
+            <span className="self-start text-h3 text-violet spacegrotesk-bold">
               02
             </span>
           </h2>
+
           <p className="max-w-2xl text-h5 text-ink">
             {content.about.description}
           </p>
         </div>
       </div>
 
-      {/* Stats — acá vive todo el scroll-jacking, contenido en 100vh */}
+      {/* Stats — scroll-jacking */}
       <div
         ref={pinRef}
         className="relative bg-surface-raised backdrop-blur-xl"
-        style={{ height: `${stats.length * 100}vh` }}
+        style={{
+          height: `${stats.length * 100}vh`,
+        }}
       >
         <div className="sticky top-0 h-screen overflow-hidden px-6 md:px-16 lg:px-8">
           <FloatingImage
@@ -194,6 +302,7 @@ export function Nosotros() {
             floatDuration={6}
             imageSrc={currentImage1}
           />
+
           <FloatingImage
             position={currentPositions.image2}
             floatDuration={7}
@@ -215,20 +324,34 @@ export function Nosotros() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="mb-2 text-ink text-h3"
+                className="mb-2 text-h3 text-ink"
               >
                 {currentLabel}
               </motion.p>
             </AnimatePresence>
 
-            <SpringCounter target={current.value} suffix={current.suffix} />
+            <SpringCounter
+              target={current.value}
+              suffix={current.suffix}
+              active={hasEnteredStats}
+              onComplete={handleCounterComplete}
+            />
 
             <AnimatePresence mode="wait">
               <motion.p
                 key={currentDescription}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
+                initial={{
+                  opacity: 0,
+                  y: 8,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                exit={{
+                  opacity: 0,
+                  y: -8,
+                }}
                 transition={{ duration: 0.35 }}
                 className="mx-auto mt-6 max-w-xl text-h4 text-ink"
               >

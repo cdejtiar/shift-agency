@@ -1,6 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLanguage } from "@/lib/i18n";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,16 +18,94 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
 export function Contacto() {
   const { content } = useLanguage();
+  const container = useRef<HTMLElement>(null);
   const [selectedInteres, setSelectedInteres] = useState(0);
   const opcionesInteres = content.contact.interestOptions;
 
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const timeline = gsap.timeline({
+          defaults: {
+            ease: "power3.out",
+          },
+          scrollTrigger: {
+            trigger: container.current,
+            start: "top 72%",
+            once: true,
+          },
+        });
+
+        timeline
+          .from("[data-contact-title]", {
+            yPercent: 105,
+            opacity: 0,
+            duration: 0.55,
+          })
+          .from(
+            "[data-contact-intro]",
+            {
+              y: 32,
+              opacity: 0,
+              duration: 0.45,
+              stagger: 0.06,
+            },
+            "-=0.25",
+          )
+          .from(
+            "[data-contact-option]",
+            {
+              x: -14,
+              opacity: 0,
+              duration: 0.28,
+              stagger: 0.035,
+            },
+            "-=0.18",
+          )
+          .from(
+            "[data-contact-field]",
+            {
+              y: 20,
+              opacity: 0,
+              duration: 0.35,
+              stagger: 0.05,
+            },
+            "-=0.15",
+          )
+          .from(
+            "[data-contact-cta]",
+            {
+              y: 16,
+              opacity: 0,
+              duration: 0.35,
+            },
+            "-=0.12",
+          );
+      });
+
+      return () => mm.revert();
+    },
+    { scope: container },
+  );
+
   return (
-    <section id="contacto" className="bg-surface px-6 py-28 text-cream font-display md:px-16 lg:px-8">
+    <section
+      ref={container}
+      id="contacto"
+      className="bg-surface px-6 py-28 text-cream font-display md:px-16 lg:px-8"
+    >
       <div className="mx-auto max-w-6xl">
-        <div className="mb-8 flex items-start gap-2">
-          <h2 className="mb-10 flex items-start gap-2 text-h2">
+        <div className="mb-8 flex items-start gap-2 overflow-hidden">
+          <h2
+            data-contact-title
+            className="mb-10 flex items-start gap-2 text-h2"
+          >
             {content.contact.title}
           </h2>
           <span className="self-start text-h3 spacegrotesk-bold text-violet">
@@ -35,7 +116,7 @@ export function Contacto() {
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
           {/* Columna Izquierda */}
           <div className="flex flex-col justify-start space-y-12 lg:col-span-5">
-            <div className="space-y-6">
+            <div data-contact-intro className="space-y-6">
               <h3 className="text-h2 font-bold leading-tight md:text-h3">
                 {content.contact.headlineFirst} <br />
                 {content.contact.headlineSecond}
@@ -83,7 +164,7 @@ export function Contacto() {
             </div>
 
             {/* Redes Sociales */}
-            <div className="inline-block w-fit">
+            <div data-contact-intro className="inline-block w-fit">
               <div className="inline-block rounded-t-xl bg-violet px-4 py-1 text-[11px] font-bold uppercase tracking-wider text-cream">
                 SEGUINOS EN:
               </div>
@@ -91,7 +172,8 @@ export function Contacto() {
                 <a
                   href="https://www.instagram.com/_shift.agency/"
                   className="text-cream/80 transition-colors hover:text-violet"
-                  aria-label="Instagram" target="_blank"
+                  aria-label="Instagram"
+                  target="_blank"
                 >
                   <FontAwesomeIcon icon={faInstagram} className="h-5 w-5" />
                 </a>
@@ -121,14 +203,19 @@ export function Contacto() {
           </div>
 
           {/* Columna Derecha - Formulario */}
-          <div className="rounded-3xl border border-white/10 bg-surface-raised p-8 md:p-12 lg:col-span-7">
+          <div
+            data-contact-intro
+            className="rounded-3xl border border-white/10 bg-surface-raised p-8 md:p-12 lg:col-span-7"
+          >
             <h3 className="mb-8 text-3xl font-bold text-cream md:text-h3">
               {content.contact.formTitle}
             </h3>
 
-            <form className="space-y-6" action="#" method="post"> {/* NO LLEVA A NINGÚN LADO!!!! */}
+            <form className="space-y-6" action="#" method="post">
+              {" "}
+              {/* NO LLEVA A NINGÚN LADO!!!! */}
               {/* Nombre y Apellido */}
-              <div className="space-y-1">
+              <div data-contact-field className="space-y-1">
                 <label
                   htmlFor="nombre"
                   className="block text-xs font-bold uppercase tracking-wider text-violet"
@@ -144,10 +231,9 @@ export function Contacto() {
                   className="w-full border-b border-white/20 bg-transparent py-2 text-body text-cream placeholder-ink outline-none transition-colors focus:border-violet"
                 />
               </div>
-
               {/* Email y Teléfono */}
-              <div className="grid gap-6 md:grid-cols-2">
-                <div className="space-y-1">
+              <div data-contact-field className="grid gap-6 md:grid-cols-2">
+                <div data-contact-field className="space-y-1">
                   <label
                     htmlFor="email"
                     className="block text-xs font-bold uppercase tracking-wider text-violet"
@@ -164,7 +250,7 @@ export function Contacto() {
                   />
                 </div>
 
-                <div className="space-y-1">
+                <div data-contact-field className="space-y-1">
                   <label
                     htmlFor="telefono"
                     className="block text-xs font-bold uppercase tracking-wider text-violet"
@@ -180,9 +266,8 @@ export function Contacto() {
                   />
                 </div>
               </div>
-
               {/* Asunto */}
-              <div className="space-y-1">
+              <div data-contact-field className="space-y-1">
                 <label
                   htmlFor="asunto"
                   className="block text-xs font-bold uppercase tracking-wider text-violet"
@@ -197,22 +282,26 @@ export function Contacto() {
                   className="w-full border-b border-white/20 bg-transparent py-2 text-body text-cream placeholder-ink outline-none transition-colors focus:border-violet"
                 />
               </div>
-
               {/* Tags de Interés */}
-              <div className="space-y-3 pt-2">
+              <div data-contact-field className="space-y-3 pt-2">
                 <label className="block text-xs font-bold uppercase tracking-wider text-violet">
                   INTERÉS
                 </label>
-                <input type="hidden" name="interes" value={opcionesInteres[selectedInteres]} />
+                <input
+                  type="hidden"
+                  name="interes"
+                  value={opcionesInteres[selectedInteres]}
+                />
                 <div className="flex flex-wrap gap-2">
                   {opcionesInteres.map((opcion, index) => {
                     const isSelected = selectedInteres === index;
                     return (
                       <button
+                        data-contact-option
                         key={opcion}
                         type="button"
                         onClick={() => setSelectedInteres(index)}
-                        className={`rounded-full px-4 py-2 text-xs font-bold tracking-wider transition-colors ${
+                        className={`contact-option rounded-full px-4 py-2 text-xs font-bold tracking-wider transition-all ${
                           isSelected
                             ? "bg-violet text-cream"
                             : "border border-white/20 bg-transparent text-cream/80 hover:border-white/40"
@@ -224,9 +313,8 @@ export function Contacto() {
                   })}
                 </div>
               </div>
-
               {/* Mensaje */}
-              <div className="space-y-1 pt-2">
+              <div data-contact-field className="space-y-1 pt-2">
                 <label
                   htmlFor="mensaje"
                   className="block text-xs font-bold uppercase tracking-wider text-violet"
@@ -242,11 +330,14 @@ export function Contacto() {
                   className="w-full border-b border-white/20 bg-transparent py-2 text-body text-cream placeholder-ink outline-none transition-colors focus:border-violet"
                 />
               </div>
-
-              <p className="text-[11px] text-ink">{content.contact.requiredNote}</p>
-
+              <p className="text-[11px] text-ink">
+                {content.contact.requiredNote}
+              </p>
               {/* Botón de envío */}
-              <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:items-center sm:justify-between">
+              <div
+                data-contact-cta
+                className="flex flex-col gap-4 pt-4 sm:flex-row sm:items-center sm:justify-between"
+              >
                 <div id="recaptcha-container" />
 
                 <button
@@ -254,7 +345,10 @@ export function Contacto() {
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-violet px-7 py-3.5 text-xs font-bold uppercase tracking-wider text-cream transition-all hover:bg-violet-light"
                 >
                   <span>{content.contact.submit}</span>
-                  <FontAwesomeIcon icon={faArrowTurnDown} className="h-3.5 w-3.5" />
+                  <FontAwesomeIcon
+                    icon={faArrowTurnDown}
+                    className="h-3.5 w-3.5"
+                  />
                 </button>
               </div>
             </form>

@@ -1,28 +1,69 @@
 "use client";
 
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLanguage } from "@/lib/i18n";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 // Placeholder — reemplazar por datos reales (idealmente desde el CMS).
 
 export function Reviews() {
   const { content } = useLanguage();
-  return (
-    <section className="px-6 py-32 md:px-16 lg:px-8">
-      <div className="mx-auto max-w-6xl">
-        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-start">
-          <h2 className="mb-10 flex items-start gap-2 text-h2">{content.reviews.title}</h2>
+  const container = useRef<HTMLElement>(null);
 
-          <p className="text-xxxl space-grotesk flex items-baseline">
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      gsap.timeline({ scrollTrigger: { trigger: container.current, start: "top 78%", once: true } })
+        .from("[data-reviews-title]", { y: 50, opacity: 0, duration: 0.75, ease: "power3.out" })
+        .from("[data-reviews-score]", { y: 36, opacity: 0, scale: 0.96, duration: 0.7, ease: "power3.out" }, "-=0.42")
+        .from("[data-reviews-intro]", { y: 28, opacity: 0, duration: 0.65, ease: "power3.out" }, "-=0.38");
+
+      gsap.from("[data-review-mobile]", {
+        y: 38,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: "power3.out",
+        scrollTrigger: { trigger: "[data-reviews-mobile]", start: "top 84%", once: true },
+      });
+
+      gsap.timeline({ scrollTrigger: { trigger: "[data-reviews-table]", start: "top 84%", once: true } })
+        .from("[data-reviews-head]", { y: 24, opacity: 0, duration: 0.55, ease: "power3.out" })
+        .from("[data-review-row]", { y: 30, opacity: 0, duration: 0.65, stagger: 0.1, ease: "power3.out" }, "-=0.25");
+
+      gsap.fromTo("[data-reviews-body]", { y: 14 }, {
+        y: -14,
+        ease: "none",
+        scrollTrigger: { trigger: container.current, start: "top bottom", end: "bottom top", scrub: true },
+      });
+    });
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      gsap.set("[data-reviews-title], [data-reviews-score], [data-reviews-intro], [data-review-mobile], [data-reviews-head], [data-review-row], [data-reviews-body]", { clearProps: "all", opacity: 1 });
+    });
+    return () => mm.revert();
+  }, { scope: container });
+
+  return (
+    <section ref={container} className="px-6 py-32 md:px-16 lg:px-8">
+      <div data-reviews-body className="mx-auto max-w-6xl">
+        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-start">
+          <h2 data-reviews-title className="mb-10 flex items-start gap-2 text-h2">{content.reviews.title}</h2>
+
+          <p data-reviews-score className="text-xxxl space-grotesk flex items-baseline">
             9.5<span className="text-h2 text-violet space-grotesk">/10</span>
           </p>
         </div>
 
-        <p className="max-w-2xl text-h5 text-ink mb-[4em]">{content.reviews.description}</p>
+        <p data-reviews-intro className="max-w-2xl text-h5 text-ink mb-[4em]">{content.reviews.description}</p>
 
         {/* Mobile/Tablet: tarjetas apiladas para evitar el scroll horizontal de la tabla */}
-        <div className="flex flex-col gap-4 lg:hidden">
+        <div data-reviews-mobile className="flex flex-col gap-4 lg:hidden">
           {content.reviews.items.map((review) => (
-            <div
+            <div data-review-mobile
               key={review.client}
               className="rounded-2xl border border-white/10 bg-surface-raised p-5 text-ink"
             >
@@ -41,9 +82,9 @@ export function Reviews() {
         </div>
 
         {/* Desktop: tabla completa */}
-        <div className="hidden lg:block -mx-8 overflow-x-auto px-8">
+        <div data-reviews-table className="hidden lg:block -mx-8 overflow-x-auto px-8">
           <table className="w-full min-w-[640px] text-left">
-            <thead>
+            <thead data-reviews-head>
               <tr className="border-b border-white/10 text-h5">
                 <th className="py-3">{content.reviews.client}</th>
                 <th className="py-3">{content.reviews.service}</th>
@@ -53,7 +94,7 @@ export function Reviews() {
             </thead>
             <tbody>
               {content.reviews.items.map((review) => (
-                <tr key={review.client} className="border-b border-white/5 text-ink text-h5">
+                <tr data-review-row key={review.client} className="border-b border-white/5 text-ink text-h5">
                   <td className="py-4">{review.client}</td>
                   <td className="py-4">{review.service}</td>
                   <td className="relative max-w-md py-4">

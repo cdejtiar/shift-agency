@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PageMotion } from "@/components/animations/PageMotion";
 import { notFound } from "next/navigation";
 
 const projectDetails = {
@@ -74,10 +75,12 @@ export default async function ProjectPage({
   }
 
   return (
+    <PageMotion>
     <main className="min-h-screen bg-surface text-cream">
       <section className="px-6 pb-20 pt-8 md:px-16 md:pb-32 md:pt-10 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <Link
+            data-page-back
             href="/#trabajos"
             className="text-sm text-ink transition-colors hover:text-cream"
           >
@@ -86,19 +89,21 @@ export default async function ProjectPage({
 
           <div className="mt-16 grid items-end gap-12 md:mt-24 md:grid-cols-[1.1fr_0.9fr] md:gap-20">
             <div>
-              <p className="mb-6 text-sm uppercase tracking-[0.24em] text-violet">
+              <p data-page-eyebrow className="mb-6 text-sm uppercase tracking-[0.24em] text-violet">
                 {project.label}
               </p>
-              <h1 className="max-w-4xl text-h1 leading-[0.95]">
-                {project.title}
-              </h1>
+              <div className="overflow-hidden">
+                <h1 data-page-title className="max-w-4xl text-h1 leading-[0.95]">
+                  {project.title}
+                </h1>
+              </div>
             </div>
-            <p className="max-w-md pb-2 text-h4 leading-tight text-cream/70">
+            <p data-page-intro className="max-w-md pb-2 text-h4 leading-tight text-cream/70">
               {project.intro}
             </p>
           </div>
 
-          <div className="mt-16 overflow-hidden rounded-lg bg-surface-raised md:mt-24">
+          <div data-page-media className="mt-16 overflow-hidden rounded-lg bg-surface-raised md:mt-24">
             <img
               src={project.thumbnail}
               alt={`Vista previa de ${project.title}`}
@@ -108,7 +113,7 @@ export default async function ProjectPage({
         </div>
       </section>
 
-      <section className="border-y border-white/10 bg-surface-raised px-6 py-20 md:px-16 md:py-28 lg:px-8">
+      <section data-page-section className="border-y border-white/10 bg-surface-raised px-6 py-20 md:px-16 md:py-28 lg:px-8">
         <div className="mx-auto grid max-w-6xl gap-14 md:grid-cols-[0.7fr_1.3fr] md:gap-24">
           <div>
             <p className="text-sm uppercase tracking-[0.24em] text-violet">El proyecto</p>
@@ -133,7 +138,7 @@ export default async function ProjectPage({
         </div>
       </section>
 
-      <section className="px-6 py-20 md:px-16 md:py-32 lg:px-8">
+      <section data-page-section className="px-6 py-20 md:px-16 md:py-32 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-8 md:grid-cols-3">
             {project.metrics.map(([number, heading, description]) => (
@@ -162,7 +167,7 @@ export default async function ProjectPage({
         </div>
       </section>
 
-      <section className="bg-surface-raised px-6 py-24 md:px-16 md:py-32 lg:px-8">
+      <section data-page-section className="bg-surface-raised px-6 py-24 md:px-16 md:py-32 lg:px-8">
         <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-10 md:flex-row md:items-end">
           <div>
             <p className="text-sm uppercase tracking-[0.24em] text-violet">Siguiente paso</p>
@@ -179,5 +184,6 @@ export default async function ProjectPage({
         </div>
       </section>
     </main>
+    </PageMotion>
   );
 }
