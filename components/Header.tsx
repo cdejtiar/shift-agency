@@ -1,10 +1,29 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/lib/i18n";
 
 export function Header() {
   const { language, content, toggleLanguage } = useLanguage();
+  const [hidden, setHidden] = useState(false);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    lastScrollY.current = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const scrollingDown = currentScrollY > lastScrollY.current;
+
+      // Solo ocultar después de bajar un poco, para que no parpadee arriba de todo
+      setHidden(scrollingDown && currentScrollY > 80);
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const links = [
     { label: content.header.links[0], href: "#servicios" },
@@ -27,7 +46,11 @@ export function Header() {
           />
         </a>
 
-        <ul className="hidden gap-8 rounded-[92px] bg-[#F2EFEB1A] backdrop-blur-xl px-8 py-4 md:flex">
+        <ul
+          className={`hidden gap-8 rounded-[92px] bg-[#F2EFEB1A] backdrop-blur-xl px-8 py-4 transition-all duration-300 ease-in-out md:flex ${
+            hidden ? "-translate-y-24 opacity-0" : "translate-y-0 opacity-100"
+          }`}
+        >
           {links.map((link) => (
             <li key={link.href}>
               <a
