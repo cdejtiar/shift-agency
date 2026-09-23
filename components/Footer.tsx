@@ -16,12 +16,12 @@ export function Footer() {
   ];
 
   return (
-    <footer className="magnetik bg-surface-raised px-6 py-16 text-cream md:px-8 md:py-20">
+    <footer className="bg-surface-raised px-6 py-16 text-cream md:px-8 md:py-20">
       <div className="mx-auto max-w-7xl">
         <div className="flex gap-12 justify-between">
           <img src="./images/Icono shift.svg" alt="Logo Shift" />
           <div>
-            <h2 className="text-lg magnetik">{content.footer.navigation}</h2>
+            <h2 className="text-lg">{content.footer.navigation}</h2>
             <nav aria-label={content.footer.ariaLabel} className="mt-6 flex flex-col items-start gap-3">
               {navigation.map((link) => (
                 <a
@@ -36,7 +36,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h2 className="text-lg magnetik">{content.footer.socialMedia}</h2>
+            <h2 className="text-lg">{content.footer.socialMedia}</h2>
             <div className="mt-6 flex flex-col items-start gap-3">
               <a
                 href="https://www.instagram.com/shiftagency"
@@ -60,7 +60,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h2 className="text-lg magnetik">{content.contact.title}</h2>
+            <h2 className="text-lg">{content.contact.title}</h2>
             <div className="mt-6 space-y-3 text-lg text-ink">
               <p>{content.footer.location}</p>
               <a className="block transition-colors hover:text-cream" href="mailto:info@shiftagency.com.ar">

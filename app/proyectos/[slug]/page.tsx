@@ -89,11 +89,11 @@ export default async function ProjectPage({
               <p className="mb-6 text-sm uppercase tracking-[0.24em] text-violet">
                 {project.label}
               </p>
-              <h1 className="max-w-4xl text-6xl leading-[0.95] magnetik md:text-[clamp(5rem,11vw,10rem)]">
+              <h1 className="max-w-4xl text-6xl leading-[0.95] md:text-[clamp(5rem,11vw,10rem)]">
                 {project.title}
               </h1>
             </div>
-            <p className="max-w-md pb-2 text-xl leading-tight text-cream/70 magnetik md:text-3xl">
+            <p className="max-w-md pb-2 text-xl leading-tight text-cream/70 md:text-3xl">
               {project.intro}
             </p>
           </div>
@@ -112,11 +112,11 @@ export default async function ProjectPage({
         <div className="mx-auto grid max-w-7xl gap-14 md:grid-cols-[0.7fr_1.3fr] md:gap-24">
           <div>
             <p className="text-sm uppercase tracking-[0.24em] text-violet">El proyecto</p>
-            <h2 className="mt-5 text-4xl leading-none magnetik md:text-6xl">{project.client}</h2>
+            <h2 className="mt-5 text-4xl leading-none md:text-6xl">{project.client}</h2>
             <p className="mt-5 text-ink">{project.category}</p>
           </div>
           <div>
-            <p className="max-w-2xl text-2xl leading-tight text-cream magnetik md:text-4xl">
+            <p className="max-w-2xl text-2xl leading-tight text-cream md:text-4xl">
               {project.objective}
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
@@ -138,8 +138,8 @@ export default async function ProjectPage({
           <div className="grid gap-8 md:grid-cols-3">
             {project.metrics.map(([number, heading, description]) => (
               <article key={number} className="border-t border-white/20 pt-5">
-                <p className="text-4xl text-violet magnetik">{number}</p>
-                <h2 className="mt-8 text-2xl magnetik">{heading}</h2>
+                <p className="text-4xl text-violet">{number}</p>
+                <h2 className="mt-8 text-2xl">{heading}</h2>
                 <p className="mt-4 max-w-xs text-ink">{description}</p>
               </article>
             ))}
@@ -152,7 +152,7 @@ export default async function ProjectPage({
               className="aspect-[4/3] w-full rounded-lg object-cover"
             />
             <div className="flex min-h-72 items-end rounded-lg bg-violet p-8 text-surface md:p-10">
-              <p className="text-4xl leading-none magnetik md:text-5xl">
+              <p className="text-4xl leading-none md:text-5xl">
                 Ideas que se ven. Resultados que se sienten.
               </p>
             </div>
@@ -164,7 +164,7 @@ export default async function ProjectPage({
         <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-10 md:flex-row md:items-end">
           <div>
             <p className="text-sm uppercase tracking-[0.24em] text-violet">Siguiente paso</p>
-            <h2 className="mt-5 max-w-2xl text-5xl leading-none magnetik md:text-7xl">
+            <h2 className="mt-5 max-w-2xl text-5xl leading-none md:text-7xl">
               ¿Hablamos de tu proyecto?
             </h2>
           </div>

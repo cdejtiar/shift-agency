@@ -34,7 +34,7 @@ export function Header() {
 
   return (
     <header className="fixed top-0 z-50 w-full">
-      <nav className="mx-auto flex items-center justify-between rounded-b-[2rem] magnetik md:px-20 md:py-5 text-body">
+      <nav className="mx-auto flex items-center justify-between rounded-b-[2rem] md:px-20 md:py-5 text-body">
         <a href="#" aria-label={content.header.homeLabel}>
           <Image
             src="/images/Logo-Shift-Blanco.svg"

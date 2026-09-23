@@ -46,9 +46,9 @@ function SpringCounter({ target, suffix }: { target: number; suffix: string }) {
   }, [springValue]);
 
   return (
-    <h2 className="flex items-start gap-2 text-xxxl magnetik">
+    <h2 className="flex items-start gap-2 text-xxxl">
       {display}
-      <span className="py-2 text-h1 magnetik text-violet">
+      <span className="py-2 text-h1 text-violet">
               {suffix}
       </span>
     </h2>
@@ -170,13 +170,13 @@ export function Nosotros() {
       {/* Presentación de la sección — scroll normal, NO pineada */}
       <div className="bg-surface-raised px-6 py-32 backdrop-blur-xl">
         <div className="mx-auto max-w-7xl">
-          <h2 className="mb-10 flex items-start gap-2 text-h2 magnetik">
+          <h2 className="mb-10 flex items-start gap-2 text-h2">
             {content.about.title}
             <span className="py-2 text-h3 spacegrotesk-bold text-violet">
               02
             </span>
           </h2>
-          <p className="max-w-2xl text-h5 text-ink magnetik">
+          <p className="max-w-2xl text-h5 text-ink">
             {content.about.description}
           </p>
         </div>
@@ -215,7 +215,7 @@ export function Nosotros() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="mb-2 text-ink text-h3 magnetik"
+                className="mb-2 text-ink text-h3"
               >
                 {currentLabel}
               </motion.p>
@@ -230,7 +230,7 @@ export function Nosotros() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.35 }}
-                className="mx-auto mt-6 max-w-xl text-h4 text-ink magnetik"
+                className="mx-auto mt-6 max-w-xl text-h4 text-ink"
               >
                 {currentDescription}
               </motion.p>

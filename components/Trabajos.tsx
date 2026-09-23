@@ -19,14 +19,14 @@ export function Trabajos() {
   return (
     <section id="trabajos" className="px-6 py-32">
       <div className="mx-auto max-w-7xl pb-[4em]">
-          <h2 className="mb-10 flex items-start gap-2 text-h2 magnetik">
+          <h2 className="mb-10 flex items-start gap-2 text-h2">
             {content.work.title}
             <span className="text-violet text-h3 spacegrotesk-bold py-2">
               03
             </span>
           </h2>
 
-          <p className="max-w-2xl text-h5 text-ink magnetik">
+          <p className="max-w-2xl text-h5 text-ink">
             {content.work.description}
           </p>
         </div>
@@ -47,13 +47,13 @@ export function Trabajos() {
                 <Link
                   href={`/proyectos/${getProjectSlug(trabajo.title)}`}
                   aria-label={`Ver proyecto ${trabajo.title}`}
-                  className="magnetik absolute bottom-3 right-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-violet text-xl text-cream transition-transform hover:scale-110"
+                  className="absolute bottom-3 right-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-violet text-xl text-cream transition-transform hover:scale-110"
                 >
                   <span aria-hidden>↗</span>
                 </Link>
               </div>
-              <h3 className="mt-4 magnetik text-h3">{trabajo.title}</h3>
-              <p className="text-ink magnetik text-h5">{trabajo.client} | {trabajo.category}</p>
+              <h3 className="mt-4 text-h3">{trabajo.title}</h3>
+              <p className="text-ink text-h5">{trabajo.client} | {trabajo.category}</p>
             </article>
           ))}
         </div>

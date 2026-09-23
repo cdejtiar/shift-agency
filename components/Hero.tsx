@@ -6,7 +6,7 @@ import { RotatingBadge } from "@/components/RotatingBadge";
 export function Hero() {
   const { content } = useLanguage();
   return (
-    <section id="hero" className="relative flex min-h-screen flex-col justify-center overflow-hidden px-6 pt-24 magnetik">
+    <section id="hero" className="relative flex min-h-screen flex-col justify-center overflow-hidden px-6 pt-24">
       <RotatingBadge className="hero-badge z-10" />
 
       <div className="relative z-10 mx-auto w-full max-w-7xl">

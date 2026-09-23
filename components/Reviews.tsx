@@ -10,18 +10,18 @@ export function Reviews() {
     <section className="px-6 py-32">
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-start">
-          <h2 className="mb-10 flex items-start gap-2 text-h2 magnetik">{content.reviews.title}</h2>
+          <h2 className="mb-10 flex items-start gap-2 text-h2">{content.reviews.title}</h2>
 
           <p className="text-xxxl space-grotesk flex items-baseline">
             9.5<span className="text-h2 text-violet space-grotesk">/10</span>
           </p>
         </div>
 
-        <p className="max-w-2xl text-h5 text-ink magnetik mb-[4em]">{content.reviews.description}</p>
+        <p className="max-w-2xl text-h5 text-ink mb-[4em]">{content.reviews.description}</p>
 
         <table className="w-full text-left">
           <thead>
-            <tr className="border-b border-white/10 text-h5 magnetik">
+            <tr className="border-b border-white/10 text-h5">
               <th className="py-3">{content.reviews.client}</th>
               <th className="py-3">{content.reviews.service}</th>
               <th className="py-3">{content.reviews.message}</th>
@@ -31,9 +31,9 @@ export function Reviews() {
           <tbody>
             {content.reviews.items.map((review) => (
               <tr key={review.client} className="border-b border-white/5 text-ink text-h5">
-                <td className="py-4 magnetik">{review.client}</td>
-                <td className="py-4 magnetik">{review.service}</td>
-                <td className="relative max-w-md py-4 magnetik">
+                <td className="py-4">{review.client}</td>
+                <td className="py-4">{review.service}</td>
+                <td className="relative max-w-md py-4">
                   <span className="group relative inline-block max-w-full align-bottom">
                     <button
                       type="button"

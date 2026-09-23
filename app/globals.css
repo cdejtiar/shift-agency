@@ -58,6 +58,7 @@
 
   body {
     @apply bg-surface text-cream font-body antialiased;
+    font-family: 'Magnetik', sans-serif;
   }
 
   h1 {

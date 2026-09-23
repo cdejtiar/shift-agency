@@ -24,7 +24,7 @@ export function Contacto() {
     <section id="contacto" className="bg-surface px-6 py-28 text-cream font-display">
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 flex items-start">
-          <h2 className="mb-10 flex items-start gap-2 text-h2 magnetik">
+          <h2 className="mb-10 flex items-start gap-2 text-h2">
             {content.contact.title}
           </h2>
           <span className="py-2 text-h3 spacegrotesk-bold text-violet">
