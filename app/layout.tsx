@@ -4,7 +4,7 @@ import { Preloader } from "@/components/Preloader";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Shift Agency — Comunicá y verte mejor",
+  title: "Shift Agency",
   description:
     "En Shift Agency ayudamos a tu marca a comunicar y verse mejor, sin perder lo que la hace única.",
   openGraph: {
