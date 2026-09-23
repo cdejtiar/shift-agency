@@ -16,10 +16,10 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-surface-raised px-6 py-16 text-cream md:px-8 md:py-20">
-      <div className="mx-auto max-w-7xl">
-        <div className="flex gap-12 justify-between">
-          <img src="./images/Icono shift.svg" alt="Logo Shift" />
+    <footer className="bg-surface-raised px-6 py-16 text-cream md:px-16 md:py-20 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        <div className="flex flex-col gap-10 md:flex-row md:justify-between md:gap-12">
+          <img src="./images/Icono shift.svg" alt="Logo Shift" className="h-10 w-auto" />
           <div>
             <h2 className="text-lg">{content.footer.navigation}</h2>
             <nav aria-label={content.footer.ariaLabel} className="mt-6 flex flex-col items-start gap-3">
@@ -79,10 +79,10 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-20 flex flex-col gap-6 border-t border-white/20 pt-7 text-sm text-ink md:flex-row md:items-center md:justify-between">
+        <div className="mt-20 grid gap-6 border-t border-white/20 pt-7 text-center text-sm text-ink md:grid-cols-3 md:items-center md:text-left">
           <p>{content.footer.rights} {year} ©</p>
-          <p className="text-center">{content.footer.tagline}</p>
-          <a href="#hero" className="inline-flex items-center gap-2 transition-colors hover:text-cream md:justify-end">
+          <p className="md:text-center">{content.footer.tagline}</p>
+          <a href="#hero" className="inline-flex items-center justify-center gap-2 transition-colors hover:text-cream md:justify-end">
             {content.footer.backToTop} <span aria-hidden>↑</span>
           </a>
         </div>

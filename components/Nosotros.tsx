@@ -112,7 +112,7 @@ function FloatingImage({
   return (
     <motion.div
       aria-hidden
-      className="absolute z-0 hidden h-36 w-44 lg:block"
+      className="absolute z-0 h-20 w-28 sm:h-28 sm:w-36 lg:h-36 lg:w-44"
       animate={position}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
@@ -168,11 +168,11 @@ export function Nosotros() {
   return (
     <section id="nosotros">
       {/* Presentación de la sección — scroll normal, NO pineada */}
-      <div className="bg-surface-raised px-6 py-32 backdrop-blur-xl">
-        <div className="mx-auto max-w-7xl">
+      <div className="bg-surface-raised px-6 py-32 backdrop-blur-xl md:px-16 lg:px-8">
+        <div className="mx-auto max-w-6xl">
           <h2 className="mb-10 flex items-start gap-2 text-h2">
             {content.about.title}
-            <span className="py-2 text-h3 spacegrotesk-bold text-violet">
+            <span className="self-start text-h3 spacegrotesk-bold text-violet">
               02
             </span>
           </h2>
@@ -188,7 +188,7 @@ export function Nosotros() {
         className="relative bg-surface-raised backdrop-blur-xl"
         style={{ height: `${stats.length * 100}vh` }}
       >
-        <div className="sticky top-0 h-screen overflow-hidden px-6">
+        <div className="sticky top-0 h-screen overflow-hidden px-6 md:px-16 lg:px-8">
           <FloatingImage
             position={currentPositions.image1}
             floatDuration={6}

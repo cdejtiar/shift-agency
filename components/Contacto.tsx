@@ -21,13 +21,13 @@ export function Contacto() {
   const opcionesInteres = content.contact.interestOptions;
 
   return (
-    <section id="contacto" className="bg-surface px-6 py-28 text-cream font-display">
+    <section id="contacto" className="bg-surface px-6 py-28 text-cream font-display md:px-16 lg:px-8">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-8 flex items-start">
+        <div className="mb-8 flex items-start gap-2">
           <h2 className="mb-10 flex items-start gap-2 text-h2">
             {content.contact.title}
           </h2>
-          <span className="py-2 text-h3 spacegrotesk-bold text-violet">
+          <span className="self-start text-h3 spacegrotesk-bold text-violet">
             04
           </span>
         </div>

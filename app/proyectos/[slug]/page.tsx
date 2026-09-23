@@ -75,8 +75,8 @@ export default async function ProjectPage({
 
   return (
     <main className="min-h-screen bg-surface text-cream">
-      <section className="px-6 pb-20 pt-8 md:px-8 md:pb-32 md:pt-10">
-        <div className="mx-auto max-w-7xl">
+      <section className="px-6 pb-20 pt-8 md:px-16 md:pb-32 md:pt-10 lg:px-8">
+        <div className="mx-auto max-w-6xl">
           <Link
             href="/#trabajos"
             className="text-sm text-ink transition-colors hover:text-cream"
@@ -84,16 +84,16 @@ export default async function ProjectPage({
             ← Volver a trabajos
           </Link>
 
-          <div className="mt-24 grid items-end gap-12 md:grid-cols-[1.1fr_0.9fr] md:gap-20">
+          <div className="mt-16 grid items-end gap-12 md:mt-24 md:grid-cols-[1.1fr_0.9fr] md:gap-20">
             <div>
               <p className="mb-6 text-sm uppercase tracking-[0.24em] text-violet">
                 {project.label}
               </p>
-              <h1 className="max-w-4xl text-6xl leading-[0.95] md:text-[clamp(5rem,11vw,10rem)]">
+              <h1 className="max-w-4xl text-h1 leading-[0.95]">
                 {project.title}
               </h1>
             </div>
-            <p className="max-w-md pb-2 text-xl leading-tight text-cream/70 md:text-3xl">
+            <p className="max-w-md pb-2 text-h4 leading-tight text-cream/70">
               {project.intro}
             </p>
           </div>
@@ -108,15 +108,15 @@ export default async function ProjectPage({
         </div>
       </section>
 
-      <section className="border-y border-white/10 bg-surface-raised px-6 py-20 md:px-8 md:py-28">
-        <div className="mx-auto grid max-w-7xl gap-14 md:grid-cols-[0.7fr_1.3fr] md:gap-24">
+      <section className="border-y border-white/10 bg-surface-raised px-6 py-20 md:px-16 md:py-28 lg:px-8">
+        <div className="mx-auto grid max-w-6xl gap-14 md:grid-cols-[0.7fr_1.3fr] md:gap-24">
           <div>
             <p className="text-sm uppercase tracking-[0.24em] text-violet">El proyecto</p>
-            <h2 className="mt-5 text-4xl leading-none md:text-6xl">{project.client}</h2>
-            <p className="mt-5 text-ink">{project.category}</p>
+            <h2 className="mt-5 text-h2 leading-none">{project.client}</h2>
+            <p className="mt-5 text-ink text-h5">{project.category}</p>
           </div>
           <div>
-            <p className="max-w-2xl text-2xl leading-tight text-cream md:text-4xl">
+            <p className="max-w-2xl text-h3 leading-tight text-cream">
               {project.objective}
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
@@ -133,14 +133,16 @@ export default async function ProjectPage({
         </div>
       </section>
 
-      <section className="px-6 py-20 md:px-8 md:py-32">
-        <div className="mx-auto max-w-7xl">
+      <section className="px-6 py-20 md:px-16 md:py-32 lg:px-8">
+        <div className="mx-auto max-w-6xl">
           <div className="grid gap-8 md:grid-cols-3">
             {project.metrics.map(([number, heading, description]) => (
               <article key={number} className="border-t border-white/20 pt-5">
-                <p className="text-4xl text-violet">{number}</p>
-                <h2 className="mt-8 text-2xl">{heading}</h2>
-                <p className="mt-4 max-w-xs text-ink">{description}</p>
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-start">
+                  <h2 className="text-h2">{heading}</h2>
+                  <p className="text-h3 text-violet spacegrotesk-bold">{number}</p>
+                </div>
+                <p className="mt-4 max-w-xs text-ink text-h4">{description}</p>
               </article>
             ))}
           </div>
@@ -152,7 +154,7 @@ export default async function ProjectPage({
               className="aspect-[4/3] w-full rounded-lg object-cover"
             />
             <div className="flex min-h-72 items-end rounded-lg bg-violet p-8 text-surface md:p-10">
-              <p className="text-4xl leading-none md:text-5xl">
+              <p className="text-h2 leading-none">
                 Ideas que se ven. Resultados que se sienten.
               </p>
             </div>
@@ -160,11 +162,11 @@ export default async function ProjectPage({
         </div>
       </section>
 
-      <section className="bg-surface-raised px-6 py-24 md:px-8 md:py-32">
-        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-10 md:flex-row md:items-end">
+      <section className="bg-surface-raised px-6 py-24 md:px-16 md:py-32 lg:px-8">
+        <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-10 md:flex-row md:items-end">
           <div>
             <p className="text-sm uppercase tracking-[0.24em] text-violet">Siguiente paso</p>
-            <h2 className="mt-5 max-w-2xl text-5xl leading-none md:text-7xl">
+            <h2 className="mt-5 max-w-2xl text-h2 leading-none">
               ¿Hablamos de tu proyecto?
             </h2>
           </div>

@@ -6,10 +6,13 @@ import { RotatingBadge } from "@/components/RotatingBadge";
 export function Hero() {
   const { content } = useLanguage();
   return (
-    <section id="hero" className="relative flex min-h-screen flex-col justify-center overflow-hidden px-6 pt-24">
-      <RotatingBadge className="hero-badge z-10" />
+    <section id="hero" className="relative flex min-h-screen flex-col justify-center overflow-hidden px-6 pt-24 md:px-16 lg:px-8">
+      <div className="flex justify-end lg:hidden">
+        <RotatingBadge className="relative z-10 mb-8 h-24 w-24 md:h-32 md:w-32" />
+      </div>
+      <RotatingBadge className="hero-badge z-10 hidden lg:block" />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl">
+      <div className="relative z-10 mx-auto w-full max-w-6xl">
         <p className="mb-4 text-ink text-h4 font-light">{content.hero.eyebrow}</p>
 
         <h1 className="max-w-l leading-[1.05] text-h1 font-medium">

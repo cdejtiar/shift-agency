@@ -127,11 +127,16 @@
 
   .hero-badge {
     position: absolute;
-    top: clamp(8rem, 24vh, 15rem);
-    left: 75%;
     width: clamp(7rem, 13vw, 12rem);
     height: clamp(7rem, 13vw, 12rem);
-    transform: translateX(-50%);
+  }
+
+  @media (min-width: 1024px) {
+    .hero-badge {
+      top: clamp(8rem, 24vh, 15rem);
+      left: 75%;
+      transform: translateX(-50%);
+    }
   }
 
   .shift-experience-shell {
@@ -519,16 +524,6 @@
   @media (min-width: 768px) {
     .zoom-grid {
       width: calc(100% - 4rem);
-    }
-  }
-
-  @media (max-width: 767px) {
-    .hero-badge {
-      top: 8rem;
-      left: 1.5rem;
-      width: 6rem;
-      height: 6rem;
-      transform: none;
     }
   }
 

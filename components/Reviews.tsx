@@ -7,8 +7,8 @@ import { useLanguage } from "@/lib/i18n";
 export function Reviews() {
   const { content } = useLanguage();
   return (
-    <section className="px-6 py-32">
-      <div className="mx-auto max-w-7xl">
+    <section className="px-6 py-32 md:px-16 lg:px-8">
+      <div className="mx-auto max-w-6xl">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-start">
           <h2 className="mb-10 flex items-start gap-2 text-h2">{content.reviews.title}</h2>
 
@@ -19,46 +19,70 @@ export function Reviews() {
 
         <p className="max-w-2xl text-h5 text-ink mb-[4em]">{content.reviews.description}</p>
 
-        <table className="w-full text-left">
-          <thead>
-            <tr className="border-b border-white/10 text-h5">
-              <th className="py-3">{content.reviews.client}</th>
-              <th className="py-3">{content.reviews.service}</th>
-              <th className="py-3">{content.reviews.message}</th>
-              <th className="py-3 text-right">{content.reviews.score}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {content.reviews.items.map((review) => (
-              <tr key={review.client} className="border-b border-white/5 text-ink text-h5">
-                <td className="py-4">{review.client}</td>
-                <td className="py-4">{review.service}</td>
-                <td className="relative max-w-md py-4">
-                  <span className="group relative inline-block max-w-full align-bottom">
-                    <button
-                      type="button"
-                      className="block max-w-full truncate text-left text-inherit focus:outline-none focus-visible:ring-2 focus-visible:ring-violet"
-                      aria-label={`Ver mensaje completo de ${review.client}`}
-                    >
-                      {review.message}
-                    </button>
-                    <span
-                      role="tooltip"
-                      className="pointer-events-none invisible absolute bottom-full left-0 z-20 mb-3 w-[min(28rem,calc(100vw-3rem))] rounded-lg bg-surface-raised p-4 text-sm leading-relaxed text-cream opacity-0 shadow-2xl ring-1 ring-white/10 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100"
-                    >
-                      {review.message}
-                    </span>
-                  </span>
-                </td>
-                <td className="py-4 text-right spacegrotesk-bold">
-                  <span className="rounded-full bg-violet px-3 py-1 text-white">
-                    {review.score}
-                  </span>
-                </td>
+        {/* Mobile/Tablet: tarjetas apiladas para evitar el scroll horizontal de la tabla */}
+        <div className="flex flex-col gap-4 lg:hidden">
+          {content.reviews.items.map((review) => (
+            <div
+              key={review.client}
+              className="rounded-2xl border border-white/10 bg-surface-raised p-5 text-ink"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-h5 text-cream">{review.client}</p>
+                  <p className="text-sm text-ink">{review.service}</p>
+                </div>
+                <span className="shrink-0 rounded-full bg-violet px-3 py-1 text-sm text-white spacegrotesk-bold">
+                  {review.score}
+                </span>
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-ink">{review.message}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop: tabla completa */}
+        <div className="hidden lg:block -mx-8 overflow-x-auto px-8">
+          <table className="w-full min-w-[640px] text-left">
+            <thead>
+              <tr className="border-b border-white/10 text-h5">
+                <th className="py-3">{content.reviews.client}</th>
+                <th className="py-3">{content.reviews.service}</th>
+                <th className="py-3">{content.reviews.message}</th>
+                <th className="py-3 text-right">{content.reviews.score}</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {content.reviews.items.map((review) => (
+                <tr key={review.client} className="border-b border-white/5 text-ink text-h5">
+                  <td className="py-4">{review.client}</td>
+                  <td className="py-4">{review.service}</td>
+                  <td className="relative max-w-md py-4">
+                    <span className="group relative inline-block max-w-full align-bottom">
+                      <button
+                        type="button"
+                        className="block max-w-full truncate text-left text-inherit focus:outline-none focus-visible:ring-2 focus-visible:ring-violet"
+                        aria-label={`Ver mensaje completo de ${review.client}`}
+                      >
+                        {review.message}
+                      </button>
+                      <span
+                        role="tooltip"
+                        className="pointer-events-none invisible absolute bottom-full left-0 z-20 mb-3 w-[min(28rem,calc(100vw-3rem))] rounded-lg bg-surface-raised p-4 text-sm leading-relaxed text-cream opacity-0 shadow-2xl ring-1 ring-white/10 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100"
+                      >
+                        {review.message}
+                      </span>
+                    </span>
+                  </td>
+                  <td className="py-4 text-right spacegrotesk-bold">
+                    <span className="rounded-full bg-violet px-3 py-1 text-white">
+                      {review.score}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
   );

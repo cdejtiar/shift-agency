@@ -17,11 +17,11 @@ export function Trabajos() {
       .replace(/(^-|-$)/g, "");
 
   return (
-    <section id="trabajos" className="px-6 py-32">
-      <div className="mx-auto max-w-7xl pb-[4em]">
+    <section id="trabajos" className="px-6 py-32 md:px-16 lg:px-8">
+      <div className="mx-auto max-w-6xl pb-[4em]">
           <h2 className="mb-10 flex items-start gap-2 text-h2">
             {content.work.title}
-            <span className="text-violet text-h3 spacegrotesk-bold py-2">
+            <span className="self-start text-violet text-h3 spacegrotesk-bold">
               03
             </span>
           </h2>
@@ -31,7 +31,7 @@ export function Trabajos() {
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-3 mx-auto max-w-7xl">
+        <div className="grid gap-8 md:grid-cols-3 mx-auto max-w-6xl">
           {content.work.items.map((trabajo) => (
             <article key={trabajo.title}>
               <div
