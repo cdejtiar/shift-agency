@@ -2,7 +2,11 @@
 
 import { useLanguage } from "@/lib/i18n";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInstagram, faLinkedinIn, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import {
+  faInstagram,
+  faLinkedinIn,
+  faWhatsapp,
+} from "@fortawesome/free-brands-svg-icons";
 
 export function Footer() {
   const { content } = useLanguage();
@@ -19,10 +23,17 @@ export function Footer() {
     <footer className="bg-surface-raised px-6 py-16 text-cream md:px-16 md:py-20 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-10 md:flex-row md:justify-between md:gap-12">
-          <img src="./images/Icono shift.svg" alt="Logo Shift" className="h-10 w-auto" />
+          <img
+            src="./images/Icono shift.svg"
+            alt="Logo Shift"
+            className="h-10 w-auto"
+          />
           <div>
             <h2 className="text-lg">{content.footer.navigation}</h2>
-            <nav aria-label={content.footer.ariaLabel} className="mt-6 flex flex-col items-start gap-3">
+            <nav
+              aria-label={content.footer.ariaLabel}
+              className="mt-6 flex flex-col items-start gap-3"
+            >
               {navigation.map((link) => (
                 <a
                   key={link.href}
@@ -63,7 +74,10 @@ export function Footer() {
             <h2 className="text-lg">{content.contact.title}</h2>
             <div className="mt-6 space-y-3 text-lg text-ink">
               <p>{content.footer.location}</p>
-              <a className="block transition-colors hover:text-cream" href="mailto:info@shiftagency.com.ar">
+              <a
+                className="block transition-colors hover:text-cream"
+                href="mailto:info@shiftagency.com.ar"
+              >
                 info@shiftagency.com.ar
               </a>
               <a
@@ -80,10 +94,31 @@ export function Footer() {
         </div>
 
         <div className="mt-20 grid gap-6 border-t border-white/20 pt-7 text-center text-sm text-ink md:grid-cols-3 md:items-center md:text-left">
-          <p>{content.footer.rights} {year} ©</p>
+          <p>
+            {content.footer.rights} {year} ©
+          </p>
           <p className="md:text-center">{content.footer.tagline}</p>
-          <a href="#hero" className="inline-flex items-center justify-center gap-2 transition-colors hover:text-cream md:justify-end">
+
+          <a
+            href="#hero"
+            className="inline-flex items-center justify-center gap-2 transition-colors hover:text-cream md:justify-end"
+          >
             {content.footer.backToTop} <span aria-hidden>↑</span>
+          </a>
+        </div>
+
+        <div className="mt-6 flex flex-col items-center justify-center gap-3 text-xs text-ink md:flex-row md:gap-6">
+          <a
+            href="/terminos-y-condiciones"
+            className="transition-colors hover:text-cream"
+          >
+            Términos y Condiciones
+          </a>
+          <a
+            href="/politica-de-privacidad"
+            className="transition-colors hover:text-cream"
+          >
+            Política de Privacidad
           </a>
         </div>
       </div>
